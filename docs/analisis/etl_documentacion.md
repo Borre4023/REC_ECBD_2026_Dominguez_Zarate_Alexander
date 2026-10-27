@@ -21,4 +21,4 @@ Documentar el proceso ETL: Extracción, Transformación, Carga hacia Data Wareho
 - **Data Mart**: Vista `dm_riesgo_crediticio` para consumo en dashboard/analítica
 
 ## Script ETL (referencia)
-Ver `src/etl/etl_south_german_credit.py` (a crear)
+Ver `src/etl/etl_south_german_credit.py`

@@ -5,7 +5,7 @@ Universidad Tecnológica de Tula-Tepeji (UTTT)
 
 **Alumno:** Alexander Domínguez Zárate · **Matrícula:** 23301324
 
-![Python](https://img.shields.io/badge/Python-3.x-blue) ![Metodología](https://img.shields.io/badge/Metodolog%C3%ADa-CRISP--DM-informational) ![Estado](https://img.shields.io/badge/Estado-en%20desarrollo-yellow)
+![Python](https://img.shields.io/badge/Python-3.x-blue) ![Metodología](https://img.shields.io/badge/Metodolog%C3%ADa-CRISP--DM-informational) ![Estado](https://img.shieldsields.io/badge/Estado-en%20progreso-green)
 
 ---
 
@@ -55,6 +55,20 @@ El proyecto se desarrolla como un ejercicio de **KDD** que incluye análisis exp
 4. Desarrollar y evaluar modelos de clasificación (`credit_risk`) y regresión (`amount`).
 5. Aplicar clustering y reducción de dimensionalidad para identificar perfiles de clientes.
 6. Construir un dashboard que comunique los principales hallazgos.
+
+## Avance actual
+
+- [x] Diccionario de datos (docs/diccionario_datos/diccionario_datos.md)
+- [x] Exploración y limpieza inicial (
+otebooks/01_exploracion.ipynb, 
+otebooks/02_preparacion_etl.ipynb)
+- [x] ETL implementado (src/etl/etl_south_german_credit.py) y datos procesados generados (data/processed/)
+- [x] Propuesta de Data Warehouse/Data Mart (docs/analisis/propuesta_dw_datamart.md)
+- [x] Esquema SQL for DW/DM (sql/schema_dw.sql)
+- [x] Preparación para modelado: Regresión (
+otebooks/03_regresion.ipynb) y Clasificación (
+otebooks/04_clasificacion.ipynb)
+- [x] Documentación de modelos (docs/modelos/resumen_regresion_clasificacion.md)
 
 ## Metodología
 
