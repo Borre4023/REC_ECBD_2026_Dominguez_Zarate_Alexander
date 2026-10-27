@@ -1,0 +1,54 @@
+```
+└── 📁REC_ECBD_2026_Dominguez_Zarate_Alexander
+    └── 📁dashboard
+    └── 📁data
+        └── 📁processed
+            ├── .gitkeep
+            ├── south_german_credit_processed.csv
+            ├── south_german_credit_processed.parquet
+        └── 📁raw
+            ├── codetable.txt
+            ├── read_SouthGermanCredit.R
+            ├── south+german+credit+update.zip
+            ├── SouthGermanCredit.asc
+    └── 📁docs
+        └── 📁analisis
+            ├── etl_documentacion.md
+            ├── propuesta_dw_datamart.md
+        └── 📁diccionario_datos
+            ├── diccionario_datos.md
+        └── 📁modelos
+            ├── resumen_regresion_clasificacion.md
+        └── 📁planeacion
+            ├── Domínguez_Zárate_Alexander_U1_PlaneacionProyecto.pdf
+        └── 📁resultados
+        ├── Informe de cambios (actualiza esta cosa cada cambio).md
+    └── 📁modelos
+        └── 📁clasificacion
+            ├── clasificacion_logistic_manual_creditrisk.pkl
+        └── 📁clustering
+        └── 📁regresion
+            ├── regresion_linear_manual_amount.pkl
+        ├── .gitkeep
+    └── 📁notebooks
+        ├── 01_exploracion.ipynb
+        ├── 02_preparacion_etl.ipynb
+        ├── 03_regresion.ipynb
+        ├── 04_clasificacion.ipynb
+    └── 📁sql
+        ├── schema_dw.sql
+    └── 📁src
+        └── 📁etl
+            ├── etl_south_german_credit.py
+        └── 📁models
+        └── 📁preprocessing
+    ├── README.md
+    ├── run_clas_manual.py
+    ├── run_clas_manual2.py
+    ├── run_nb_reg.py
+    ├── run_reg_manual.py
+    ├── run_reg_manual2.py
+    ├── run_reg_simple.py
+    ├── test_modelos_manual.py
+    └── update_docs.py
+```
