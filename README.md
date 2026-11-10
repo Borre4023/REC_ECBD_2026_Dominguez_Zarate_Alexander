@@ -5,7 +5,7 @@ Universidad Tecnológica de Tula-Tepeji (UTTT)
 
 **Alumno:** Alexander Domínguez Zárate · **Matrícula:** 23301324
 
-![Python](https://img.shields.io/badge/Python-3.x-blue) ![Metodología](https://img.shields.io/badge/Metodolog%C3%ADa-CRISP--DM-informational) ![Estado](https://img.shieldsields.io/badge/Estado-en%20progreso-green)
+![Python](https://img.shields.io/badge/Python-3.x-blue) ![Metodología](https://img.shields.io/badge/Metodolog%C3%ADa-CRISP--DM-informational) ![Estado](https://img.shields.io/badge/Estado-en%20progreso-green)
 
 ---
 
@@ -58,17 +58,14 @@ El proyecto se desarrolla como un ejercicio de **KDD** que incluye análisis exp
 
 ## Avance actual
 
-- [x] Diccionario de datos (docs/diccionario_datos/diccionario_datos.md)
-- [x] Exploración y limpieza inicial (
-otebooks/01_exploracion.ipynb, 
-otebooks/02_preparacion_etl.ipynb)
-- [x] ETL implementado (src/etl/etl_south_german_credit.py) y datos procesados generados (data/processed/)
-- [x] Propuesta de Data Warehouse/Data Mart (docs/analisis/propuesta_dw_datamart.md)
-- [x] Esquema SQL for DW/DM (sql/schema_dw.sql)
-- [x] Preparación para modelado: Regresión (
-otebooks/03_regresion.ipynb) y Clasificación (
-otebooks/04_clasificacion.ipynb)
-- [x] Documentación de modelos (docs/modelos/resumen_regresion_clasificacion.md)
+- [x] Diccionario de datos v2 con los 8 campos de la Unidad II (`docs/diccionario_datos/diccionario_datos.md`; versión anterior respaldada en `diccionario_datos_v1_respaldo.md`)
+- [x] Exploración y limpieza inicial (`notebooks/01_exploracion.ipynb`, `notebooks/02_preparacion_etl.ipynb`)
+- [x] ETL implementado (`src/etl/etl_south_german_credit.py`) y datos procesados generados (`data/processed/`)
+- [x] Propuesta de Data Warehouse/Data Mart (`docs/analisis/propuesta_dw_datamart.md`)
+- [x] Esquema SQL para DW/DM (`sql/schema_dw.sql`)
+- [x] Preparación para modelado: Regresión (`notebooks/03_regresion.ipynb`) y Clasificación (`notebooks/04_clasificacion.ipynb`)
+- [x] Documentación de modelos (`docs/modelos/resumen_regresion_clasificacion.md`)
+- [x] **Informe de exploración técnica (Unidad II)** con 10 secciones, diagnóstico de calidad y visualizaciones (`docs/analisis/exploracion_tecnica.md` + versión HTML autocontenida `exploracion_tecnica.html`); gráficas en `docs/analisis/figuras/` (reproducibles con `py src/preprocessing/exploracion_tecnica.py`)
 
 ## Metodología
 
@@ -99,7 +96,7 @@ south-german-credit/
 │   └── processed/
 ├── notebooks/
 │   ├── 01_exploracion.ipynb
-│   ├── 02_preparacion.ipynb
+│   ├── 02_preparacion_etl.ipynb
 │   ├── 03_regresion.ipynb
 │   ├── 04_clasificacion.ipynb
 │   ├── 05_clustering.ipynb
@@ -126,17 +123,19 @@ south-german-credit/
 
 ## Cronograma
 
-| Fecha | Actividad | Producto esperado |
-|---|---|---|
-| 2 oct | Documento de planeación | Informe inicial |
-| 9 oct | Diccionario de datos, exploración y limpieza inicial | Diccionario + notebook EDA + propuesta DW/Data Mart |
-| 16 oct | ETL, datos procesados, DW/Data Mart y repositorio | Pipeline ETL + dataset procesado + estructura de BD |
-| 23 oct | Modelos de regresión y clasificación | Primeros modelos funcionando |
-| 30 oct | Análisis supervisado | Modelos + métricas + evaluación + optimización + informe |
-| 6 nov | Clustering y reducción de dimensionalidad | Modelos no supervisados funcionando |
-| 13 nov | Análisis no supervisado | Modelos + evaluación + interpretación + informe |
-| 17 nov | Dashboard y storytelling | Dashboard revisado + narrativa preliminar |
-| 20 nov | Entrega final | Dashboard + repositorio + informe + defensa |
+| Fecha | Actividad | Producto esperado | Estado |
+|---|---|---|---|
+| 2 oct | Documento de planeación | Informe inicial | ✅ Completado |
+| 9 oct | Diccionario de datos, exploración y limpieza inicial | Diccionario + notebook EDA + propuesta DW/Data Mart | ✅ Completado |
+| 16 oct | ETL, datos procesados, DW/Data Mart y repositorio | Pipeline ETL + dataset procesado + estructura de BD | ✅ Completado |
+| 23 oct | Modelos de regresión y clasificación | Primeros modelos funcionando | ✅ Completado (implementación manual, sin sklearn por restricciones del entorno) |
+| 30 oct | Análisis supervisado | Modelos + métricas + evaluación + optimización + informe | 🔄 En progreso |
+| 6 nov | Clustering y reducción de dimensionalidad | Modelos no supervisados funcionando | ⬜ Pendiente (retrasado; el avance correspondiente se cumplió con la exploración técnica) |
+| 13 nov | Análisis no supervisado | Modelos + evaluación + interpretación + informe | ⬜ Pendiente |
+| 17 nov | Dashboard y storytelling | Dashboard revisado + narrativa preliminar | ⬜ Pendiente |
+| 20 nov | Entrega final | Dashboard + repositorio + informe + defensa | ⬜ Pendiente |
+
+**Nota (9 nov):** además del cronograma, se entregó el *Informe de exploración técnica* correspondiente a la Unidad II (`docs/analisis/exploracion_tecnica.md` + `.html`), que formaliza el diagnóstico de calidad, los estadísticos, la detección de atípicos y las propuestas de regresión/clasificación/clustering.
 
 ## Limitaciones
 
