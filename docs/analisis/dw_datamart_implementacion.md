@@ -35,6 +35,13 @@ entrega teórica para un despliegue real; el DDL de SQLite mantiene la misma est
                     + cuota_aprox_mensual recalculada en SQL
 ```
 
+![Figura 1. Diagrama del esquema estrella del Data Mart implementado en SQLite](figuras/diagrama_dw.png)
+
+**Figura 1.** Esquema estrella del Data Mart `dw_south_german_credit.db`: 8 dimensiones
+desduplicadas rodean `fact_credito` (1000 filas, 8 FKs verificadas); la vista de consumo
+`dm_riesgo_crediticio` desnormaliza el modelo y recalcula `cuota_aprox_mensual` en SQL.
+Generado con `py src/etl/diagrama_dw.py` (conteos leídos en vivo de la base).
+
 **Dimensiones** (con desduplicación SCD tipo 0 — cada combinación única de atributos es una fila):
 
 | Dimensión | Atributos | Filas |

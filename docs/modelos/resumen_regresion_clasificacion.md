@@ -1,7 +1,15 @@
 ﻿# Resumen de Modelos: Regresión y Clasificación
 
 **Fecha:** 2026-10-27  
-**Dataset:** South German Credit (procesado)  
+**Dataset:** South German Credit (procesado)
+
+> **⚠️ Documento histórico (implementación manual pre-sklearn).** Estas cifras corresponden
+> a la implementación manual de la fase 4 original (23 oct), cuando el entorno bloqueaba
+> sklearn. La evaluación definitiva de la Unidad III, con sklearn y CV estratificada,
+> está en **`docs/modelos/evaluacion_modelos.md`** (RidgeCV R² test 0.596; logística
+> balanceada ROC-AUC test 0.835). Este documento se conserva por trazabilidad: muestra
+> por qué el desbalance hay que manejarlo explícitamente (el modelo manual colapsó a
+> predecir todo "good", ROC-AUC 0.500).
 
 
 ## 1) Regresión - Predecir monto (`amount` / `hoehe`)

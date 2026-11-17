@@ -247,3 +247,34 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
   fase, cronograma cerrado, estructura de repositorio fiel, instrucciones de reproducción por
   pipeline (5 comandos), tabla de documentación y 4 hallazgos principales.
 - **Bitácora:** esta entrada. Con esto se cierra el plan Fase 0→5.
+
+### 2026-11-16 — Fase 6: cierre de la entrega final
+
+- **Diagrama del Data Mart** (`src/etl/diagrama_dw.py` → `docs/analisis/figuras/diagrama_dw.png`):
+  esquema estrella simple (8 dimensiones desduplicadas → `fact_credito` → vista
+  `dm_riesgo_crediticio`) con conteos de filas leídos en vivo de la base SQLite; incrustado
+  como Figura 1 en `docs/analisis/dw_datamart_implementacion.md`.
+- **Capturas del dashboard** (`src/dashboard/capturar_dashboard.py` → `docs/resultados/capturas/`):
+  4 imágenes por sección (01_panorama, 02_riesgo, 03_exposicion, 04_modelos_segmentos) con
+  Chrome headless (`--headless=new`) + recorte de bordes con Pillow; sin dependencias nuevas.
+- **Corrección de datos en el dashboard:** el "mejor segmento" de Q3 tomaba la última fila del
+  top-8 (24.4 %) en vez del segmento real "cuenta ≥ 200 + ahorros ≥ 1000" (9.1 %, regla ×5.7);
+  `generar_dashboard.py` corregido para mostrar todas las combinaciones ≥ 10 créditos y regenerado
+  (377 013 bytes). Capturas rehechas.
+- **Informe final borrador** (`docs/resultados/informe_final_borrador.md` + `.html`, APA 7):
+  resumen, marco teórico KDD/CRISP-DM, materiales y métodos, Unidades II–IV con figuras y
+  tablas reales, dashboard con 4 capturas y cita del dashboard en GitHub, discusión integrada,
+  limitaciones, conclusiones por objetivo, referencias (Fayyad, Groemping, Kimball, sklearn,
+  UCI…) y 4 anexos; HTML autocontenido con pandoc (2.17 MB, 13 imágenes base64).
+- **`data/README.md`:** separación raw/processed (inmutable vs. regenerable) y comandos de
+  regeneración.
+- **Guía de ejecución y defensa** (`docs/resultados/guia_ejecucion_defensa.md`): 7 comandos con
+  salidas esperadas, guion por fase, 8 preguntas probables del sinodal y checklist pre-entrega.
+  **Elaborada pero retenida del repositorio:** se publicará después del 20 de noviembre
+  (fecha de entrega final), para no anticipar el material de defensa.
+- **Pulido documental:** subsección 1.1 "Selección de variables" en `docs/modelos/clustering_pca.md`;
+  nota histórica en `docs/modelos/resumen_regresion_clasificacion.md` (remitir a
+  `evaluacion_modelos.md`); README con enlaces al informe, capturas, guía y diagrama.
+- **Verificación final:** pipeline completo reejecutado en secuencia (ETL 7/7, DW 0 FK,
+  R² 0.596, AUC 0.835, k=2) con cifras coincidentes con el informe.
+- **Tag de cierre:** `v1.0-entrega-final` (creado tras el push).

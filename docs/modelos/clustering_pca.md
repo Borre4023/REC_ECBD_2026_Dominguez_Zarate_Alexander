@@ -14,6 +14,23 @@ Segmentar los solicitantes **sin usar la respuesta** (`kredit`) y validar post-h
 segmentos discriminan riesgo real. Es un análisis de conocimiento de negocio (KDD: fase de
 minería no supervisada), no un predictor.
 
+### 1.1 Selección de variables
+
+De las 41 columnas del dataset procesado se retiene una matriz de entrada de **20
+variables** que produce 71 columnas tras el one-hot:
+
+- **Entran 3 numéricas** — `laufzeit` (plazo), `hoehe` (monto), `alter` (edad) —
+  **estandarizadas** con StandardScaler: sin escalado, K-means usaría el monto (miles de
+  DM) para dominar la distancia frente a la edad (decenas de años).
+- **Entran las 17 categóricas/ordinales/binarias como dummies one-hot**: en un algoritmo
+  basado en distancias euclidianas, codificar las categorías con enteros impondría órdenes
+  falsos (p. ej. `moral = 4` "no estaría más cerca de" `moral = 3` que de `moral = 0`).
+  Las dummies tratan cada categoría como presencia/ausencia.
+- **Se excluyen `kredit` y `kredit_cat`**: el clustering no debe ver la respuesta; la
+  validación del perfil por % bad (§ 4) solo tiene valor si la respuesta quedó fuera.
+- **Se excluye `cuota_aprox_mensual`**: es una función determinista de `hoehe/laufzeit`,
+  así que duplicaría esas dos variables triplicando su peso efectivo en la distancia.
+
 | Decisión | Justificación |
 |---|---|
 | Excluir `kredit`, `kredit_cat` | el clustering no debe ver la respuesta (evita circularidad) |
