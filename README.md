@@ -5,7 +5,7 @@ Universidad Tecnológica de Tula-Tepeji (UTTT)
 
 **Alumno:** Alexander Domínguez Zárate · **Matrícula:** 23301324
 
-![Python](https://img.shields.io/badge/Python-3.x-blue) ![Metodología](https://img.shields.io/badge/Metodolog%C3%ADa-CRISP--DM-informational) ![Estado](https://img.shields.io/badge/Estado-en%20progreso-green)
+![Python](https://img.shields.io/badge/Python-3.x-blue) ![Metodología](https://img.shields.io/badge/Metodolog%C3%ADa-CRISP--DM-informational) ![Estado](https://img.shields.io/badge/Estado-completado-brightgreen)
 
 ---
 
@@ -60,12 +60,14 @@ El proyecto se desarrolla como un ejercicio de **KDD** que incluye análisis exp
 
 - [x] Diccionario de datos v2 con los 8 campos de la Unidad II (`docs/diccionario_datos/diccionario_datos_v2.md`; versión anterior respaldada en `diccionario_datos_v1.md`)
 - [x] Exploración y limpieza inicial (`notebooks/01_exploracion.ipynb`, `notebooks/02_preparacion_etl.ipynb`)
-- [x] ETL implementado (`src/etl/etl_south_german_credit.py`) y datos procesados generados (`data/processed/`)
+- [x] ETL implementado con contrato de calidad (`src/etl/etl_south_german_credit.py`, 7/7 chequeos OK) y datos procesados (`data/processed/`)
 - [x] Propuesta de Data Warehouse/Data Mart (`docs/analisis/propuesta_dw_datamart.md`)
-- [x] Esquema SQL para DW/DM (`sql/schema_dw.sql`)
-- [x] Preparación para modelado: Regresión (`notebooks/03_regresion.ipynb`) y Clasificación (`notebooks/04_clasificacion.ipynb`)
-- [x] Documentación de modelos (`docs/modelos/resumen_regresion_clasificacion.md`)
+- [x] Esquema SQL para DW/DM (`sql/schema_dw.sql`, diseño PostgreSQL teórico)
+- [x] **Data Mart implementado en SQLite** (`sql/schema_dw_sqlite.sql` + `src/etl/build_dw_sqlite.py`): modelo estrella con 8 dimensiones, `fact_credito` (1000 filas), vista `dm_riesgo_crediticio` y 5 consultas analíticas (`sql/queries_dm.sql`); 0 violaciones de integridad
+- [x] **Unidad III — modelos supervisados con sklearn** (`src/models/entrenar_regresion.py`, `entrenar_clasificacion.py`): regresión del monto R² test 0.596 (RidgeCV); clasificación del riesgo ROC-AUC test 0.835 (logística balanceada), recall de bads 76.7%; evaluación en `docs/modelos/evaluacion_modelos.md`; notebooks 03–04 didácticos ejecutados sin errores
 - [x] **Informe de exploración técnica (Unidad II)** con 10 secciones, diagnóstico de calidad y visualizaciones (`docs/analisis/exploracion_tecnica.md` + versión HTML autocontenida `exploracion_tecnica.html`); gráficas en `docs/analisis/figuras/` (reproducibles con `py src/preprocessing/exploracion_tecnica.py`)
+- [x] **Unidad IV — clustering y PCA** (`src/models/clustering_pca.py`, `notebooks/05_clustering_pca.ipynb`): PCA (PC1 = eje exposición, 23 CP para 80% de varianza) y K-means k=2 con validación post-hoc (segmento de exposición alta: 43.7% bad); evaluación en `docs/modelos/clustering_pca.md`
+- [x] **Dashboard HTML autocontenido** (`dashboard/index.html`): KPIs + consultas Q1–Q5 del Data Mart + resultados de modelos y segmentos; figuras en base64, generado con `py src/dashboard/generar_dashboard.py`
 
 ## Metodología
 
@@ -84,7 +86,7 @@ Debido al desbalance de clases, la clasificación no se evalúa solo con *accura
 
 ## Herramientas
 
-Python · Pandas · NumPy · Matplotlib · Seaborn · Scikit-learn · PostgreSQL / SQL · Jupyter Notebook · Git y GitHub · Dashboard (Power BI, Tableau o Streamlit; por definir)
+Python 3 · Pandas · NumPy · Matplotlib · Seaborn · Scikit-learn · SQLite (+ PostgreSQL como diseño teórico) · Jupyter Notebook · Jinja2 (dashboard) · Git y GitHub
 
 ## Estructura del repositorio
 
@@ -93,31 +95,33 @@ south-german-credit/
 ├── README.md
 ├── data/
 │   ├── raw/
-│   └── processed/
+│   └── processed/          # dataset ETL + dw_south_german_credit.db + reportes JSON
 ├── notebooks/
 │   ├── 01_exploracion.ipynb
 │   ├── 02_preparacion_etl.ipynb
 │   ├── 03_regresion.ipynb
 │   ├── 04_clasificacion.ipynb
-│   ├── 05_clustering.ipynb
-│   └── 06_pca.ipynb
+│   └── 05_clustering_pca.ipynb
 ├── src/
-│   ├── etl/
-│   ├── preprocessing/
-│   └── models/
+│   ├── etl/                # etl_south_german_credit.py, build_dw_sqlite.py
+│   ├── preprocessing/      # exploracion_tecnica.py, figuras_fuente.py
+│   ├── models/             # entrenar_regresion.py, entrenar_clasificacion.py, clustering_pca.py
+│   └── dashboard/          # generar_dashboard.py + plantilla.html
 ├── sql/
-│   ├── schema.sql
-│   └── queries.sql
-├── modelos/
+│   ├── schema_dw.sql       # diseño PostgreSQL (teórico)
+│   ├── schema_dw_sqlite.sql
+│   └── queries_dm.sql
+├── modelos/                # .pkl + metricas.json por problema
 │   ├── regresion/
 │   ├── clasificacion/
 │   └── clustering/
 ├── dashboard/
+│   └── index.html          # dashboard autocontenido (abrir en navegador)
 └── docs/
     ├── planeacion/
     ├── diccionario_datos/
     ├── analisis/
-    ├── modelos/
+    ├── modelos/            # evaluacion_modelos.md, clustering_pca.md, figuras/
     └── resultados/
 ```
 
@@ -129,13 +133,12 @@ south-german-credit/
 | 9 oct | Diccionario de datos, exploración y limpieza inicial | Diccionario + notebook EDA + propuesta DW/Data Mart | ✅ Completado |
 | 16 oct | ETL, datos procesados, DW/Data Mart y repositorio | Pipeline ETL + dataset procesado + estructura de BD | ✅ Completado |
 | 23 oct | Modelos de regresión y clasificación | Primeros modelos funcionando | ✅ Completado (implementación manual, sin sklearn por restricciones del entorno) |
-| 30 oct | Análisis supervisado | Modelos + métricas + evaluación + optimización + informe | 🔄 En progreso |
-| 6 nov | Clustering y reducción de dimensionalidad | Modelos no supervisados funcionando | ⬜ Pendiente (retrasado; el avance correspondiente se cumplió con la exploración técnica) |
-| 13 nov | Análisis no supervisado | Modelos + evaluación + interpretación + informe | ⬜ Pendiente |
-| 17 nov | Dashboard y storytelling | Dashboard revisado + narrativa preliminar | ⬜ Pendiente |
-| 20 nov | Entrega final | Dashboard + repositorio + informe + defensa | ⬜ Pendiente |
+| 6 nov | Clustering y reducción de dimensionalidad | Modelos no supervisados funcionando | ✅ Completado |
+| 13 nov | Análisis no supervisado | Modelos + evaluación + interpretación + informe | ✅ Completado |
+| 17 nov | Dashboard y storytelling | Dashboard revisado + narrativa preliminar | ✅ Completado (dashboard autocontenido + consultas del Data Mart) |
+| 20 nov | Entrega final | Dashboard + repositorio + informe + defensa | ✅ Completado |
 
-**Nota (9 nov):** además del cronograma, se entregó el *Informe de exploración técnica* correspondiente a la Unidad II (`docs/analisis/exploracion_tecnica.md` + `.html`), que formaliza el diagnóstico de calidad, los estadísticos, la detección de atípicos y las propuestas de regresión/clasificación/clustering.
+**Nota (16 nov):** el proyecto quedó completo con sklearn (desbloqueado desde el 9 nov): ETL con contrato de calidad 7/7, Data Mart SQLite validado, modelos supervisados (R² 0.596 / AUC 0.835), clustering con validación post-hoc (43.7% vs 25.3% bad) y dashboard autocontenido. La bitácora completa está en `docs/Informe de cambios (actualiza esta cosa cada cambio).md`.
 
 ## Limitaciones
 
@@ -150,12 +153,49 @@ south-german-credit/
 ```bash
 git clone <url-del-repositorio>
 cd south-german-credit
-pip install pandas numpy matplotlib seaborn scikit-learn jupyter
+pip install pandas numpy matplotlib seaborn scikit-learn jinja2 jupyter pyarrow
+
+# 1) ETL: dataset procesado + reporte de calidad (7/7 chequeos OK)
+py src/etl/etl_south_german_credit.py
+
+# 2) Data Warehouse / Data Mart en SQLite (0 violaciones FK)
+py src/etl/build_dw_sqlite.py
+
+# 3) Modelos supervisados (pkl + metricas.json + figuras)
+py src/models/entrenar_regresion.py        # RidgeCV, R2 test 0.596
+py src/models/entrenar_clasificacion.py    # logistica balanceada, AUC 0.835
+
+# 4) Unidad IV: PCA + K-means (k=2, validacion post-hoc)
+py src/models/clustering_pca.py
+
+# 5) Dashboard autocontenido -> dashboard/index.html (abrir en navegador)
+py src/dashboard/generar_dashboard.py
+
+# versión didáctica paso a paso (notebooks ejecutados, 0 errores)
 jupyter notebook notebooks/
 ```
 
-> Este apartado se completará (dependencias exactas, carga a PostgreSQL y ejecución del dashboard) conforme avance el proyecto.
+Todos los scripts usan rutas relativas a la raíz del repositorio y `random_state=42`
+para reproducibilidad completa.
 
 ## Documentación
 
-El informe completo de planeación está en `docs/planeacion/`.
+| Documento | Ruta |
+|---|---|
+| Informe de planeación | `docs/planeacion/` |
+| Diccionario de datos v2 | `docs/diccionario_datos/diccionario_datos_v2.md` |
+| Exploración técnica (Unidad II) | `docs/analisis/exploracion_tecnica.md` (+ `.html`) |
+| Documentación del ETL | `docs/analisis/etl_documentacion.md` |
+| Propuesta DW/Data Mart | `docs/analisis/propuesta_dw_datamart.md` |
+| Implementación del Data Mart (SQLite) | `docs/analisis/dw_datamart_implementacion.md` |
+| Evaluación de modelos (Unidad III) | `docs/modelos/evaluacion_modelos.md` |
+| Clustering y PCA (Unidad IV) | `docs/modelos/clustering_pca.md` |
+| Bitácora de cambios | `docs/Informe de cambios (actualiza esta cosa cada cambio).md` |
+| Dashboard | `dashboard/index.html` |
+
+## Hallazgos principales
+
+1. **El historial crediticio es la señal más fuerte:** 62.5% bad con atraso previo vs. 17.1% con historial limpio en el banco (gradiente monotónico).
+2. **La exposición escala el riesgo de forma no lineal:** el riesgo cae (28.8% → 23.9%) y luego sube hasta 54.3% en créditos ≥ 8000 DM.
+3. **El segmento riesgoso es el cliente solvente sobreexpuesto:** sin usar la respuesta, K-means separa dos economías del crédito — 254 clientes de exposición alta (6 895 DM, 36 meses) con 43.7% bad vs. 746 de exposición baja con 25.3%.
+4. **Una logística balanceada detecta el 77% de los morosos** (ROC-AUC 0.835 en test) a cambio de un 29% de falsas alarmas; las variables dominantes (`laufkont`, `moral`, `sparkont`) coinciden con las consultas del Data Mart.

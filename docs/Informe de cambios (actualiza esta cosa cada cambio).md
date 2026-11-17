@@ -231,3 +231,19 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
   reutiliza el script y documenta interpretación de cada apartado.
 - **`docs/modelos/clustering_pca.md`:** diseño, tablas reales de PCA/silhouette/perfiles, lectura de
   negocio, uso recomendado (2 políticas por exposición) y 4 limitaciones.
+
+### 2026-11-16 — Fase 5: dashboard y cierre del proyecto
+
+- **`src/dashboard/plantilla.html` + `src/dashboard/generar_dashboard.py`:** dashboard HTML estático
+  **autocontenido** (jinja2 + matplotlib en base64): se abre en cualquier navegador sin servidor ni
+  internet. Alimentado directamente por el Data Mart SQLite (`dw_south_german_credit.db`).
+- **`dashboard/index.html`** (376 KB): 9 secciones — KPIs de cartera (1000 créditos, 30.0% bad,
+  3 271 248 DM totales, cuota media 167.7 DM/mes); consultas Q1 (historial 62.5%→17.1% bad),
+  Q3 (cuenta+ahorros, regla ×5.7), Q5 (monto: patrón no lineal hasta 54.3%), Q2 (propósitos por
+  monto/cuota), Q4 (top-10 exposición, 40% bad); resultados de la Unidad III (AUC 0.835, recall
+  76.7%, R² 0.596 con figuras ROC/matriz incrustadas) y Unidad IV (tabla de segmentos + figuras
+  PCA/perfil); pipeline de reproducibilidad y limitaciones.
+- **README.md actualizado para el cierre:** estado completado, avance con entregables reales por
+  fase, cronograma cerrado, estructura de repositorio fiel, instrucciones de reproducción por
+  pipeline (5 comandos), tabla de documentación y 4 hallazgos principales.
+- **Bitácora:** esta entrada. Con esto se cierra el plan Fase 0→5.
