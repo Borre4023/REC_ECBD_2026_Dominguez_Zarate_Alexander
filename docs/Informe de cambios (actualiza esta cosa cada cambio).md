@@ -166,3 +166,19 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
   artefactos de carga y relación con las fases siguientes.
 - **Cierre de Unidad II publicado:** commit `749d067` (notebook 01 reejecutado 1→16, 0 errores) y tag
   `v0.2-unidad2` en `origin`.
+
+### 2026-11-16 — Fase 2: Data Mart implementado en SQLite
+
+- **`sql/schema_dw_sqlite.sql`:** DDL adaptado del diseño PostgreSQL (`schema_dw.sql` se conserva como
+  entrega teórica): 8 dimensiones, `fact_credito` con 8 FKs + índices, y vista `dm_riesgo_crediticio`
+  con `cuota_aprox_mensual` recalculada en SQL.
+- **`src/etl/build_dw_sqlite.py`:** carga el dataset procesado (Fase 1), desduplica las dimensiones
+  (SCD tipo 0), resuelve surrogate keys y valida con `PRAGMA foreign_key_check`.
+- **`data/processed/dw_south_german_credit.db`** (192 KB): `fact_credito` 1000 filas = dataset procesado;
+  vista 1000 filas; sin violaciones FK; dimensiones: cliente 508, cuenta 20, historial 5, propósito 10,
+  bien 4, planes 3, deudor 3, vivienda 3.
+- **`sql/queries_dm.sql` + `dm_consultas_resultados.json`:** 5 consultas analíticas con resultados reales:
+  historial de atraso 62.5 % bad vs. historial limpio 17.1 %; sin cuenta + sin ahorros 52.1 % bad;
+  créditos ≥ 8000 DM 54.3 % bad; top-10 de exposición mensual con 40 % bad (2 de los 2 mayores son bad).
+- **`docs/analisis/dw_datamart_implementacion.md`:** esquema, validaciones, resultados y lectura de
+  negocio de cada consulta.
