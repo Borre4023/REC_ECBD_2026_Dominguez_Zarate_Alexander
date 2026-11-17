@@ -182,3 +182,30 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
   créditos ≥ 8000 DM 54.3 % bad; top-10 de exposición mensual con 40 % bad (2 de los 2 mayores son bad).
 - **`docs/analisis/dw_datamart_implementacion.md`:** esquema, validaciones, resultados y lectura de
   negocio de cada consulta.
+
+### 2026-11-16 — Fase 3: Unidad III (modelos supervisados con sklearn)
+
+- **`src/models/entrenar_regresion.py`:** pipeline sklearn (OneHot + StandardScaler) con comparación
+  KFold 5-fold de 4 candidatos (baseline mediana, OLS, Ridge α=1, RidgeCV). Ganó `ridge_cv`
+  (α=31.62): CV R² 0.55, test **R² 0.596** / RMSE 1798 DM / MAE 1139 DM vs. monto medio 3271 DM.
+  Coeficientes estandarizados interpretables (`laufzeit` +1488 DM/σ; cuotas ligeras −1043; business
+  +615). Excluye leakage: `kredit`, `kredit_cat`, `cuota_aprox_mensual`.
+- **`src/models/entrenar_clasificacion.py`:** clase positiva = bad, `class_weight='balanced'`,
+  CV estratificada 5-fold por ROC-AUC (baseline, logística C=1/C=0.1, RandomForest 300). Ganó la
+  logística C=0.1: CV AUC **0.772±0.044**, test **AUC 0.835** (meta >0.70 superada; U2 manual 0.703).
+  Umbral óptimo por F1-bad ajustado solo en train (0.49): recall bad 0.767 (46/60), precisión 0.529.
+  Matriz de confusión con bad primero (`labels=[1,0]`).
+- **`docs/modelos/figuras/`:** `reg_pred_vs_real.png`, `reg_residuos.png`, `roc_curvas.png` (AUC por
+  modelo), `matriz_confusion.png`.
+- **Artefactos:** `modelos/regresion/ridge_amount.pkl` + `metricas.json`; `modelos/clasificacion/
+  mejor_riesgo.pkl` + `metricas.json` (los .pkl manuales antiguos se conservan como evidencia histórica).
+- **`notebooks/03_regresion.ipynb` y `04_clasificacion.ipynb` reescritos didácticos** (21 y 24 celdas;
+  8 y 9 de código; 0 errores; ejecución secuencial): reutilizan las funciones de los scripts vía
+  `sys.path` y documentan la interpretación de cada apartado (comparación CV, test, coeficientes/
+  importancias, diagnóstico gráfico, reproducibilidad end-to-end).
+- **`docs/modelos/evaluacion_modelos.md`:** diseño experimental, tablas de métricas reales,
+  lectura operativa de la matriz de confusión, comparación entre problemas, 5 limitaciones y
+  reproducibilidad.
+- **Consistencia con el Data Mart:** las variables dominantes del clasificador (`laufkont`, `moral`,
+  `sparkont`) coinciden con los gradientes de riesgo de las consultas Q1/Q3; la regresión reproduce
+  la relación monto-cuota-plazo y el patrón no lineal de Q5.
