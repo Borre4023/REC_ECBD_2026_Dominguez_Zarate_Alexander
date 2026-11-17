@@ -1,0 +1,123 @@
+{
+  "fecha": "2026-11-16T19:35:12",
+  "dataset": "data\\processed\\south_german_credit_processed.csv",
+  "target": "hoehe",
+  "features": [
+    "laufzeit",
+    "alter",
+    "laufkont_cat",
+    "moral_cat",
+    "verw_cat",
+    "sparkont_cat",
+    "beszeit_cat",
+    "rate_cat",
+    "famges_cat",
+    "buerge_cat",
+    "wohnzeit_cat",
+    "verm_cat",
+    "weitkred_cat",
+    "wohn_cat",
+    "bishkred_cat",
+    "beruf_cat",
+    "pers_cat",
+    "telef_cat",
+    "gastarb_cat"
+  ],
+  "excluidas_por_leakage": [
+    "kredit",
+    "kredit_cat",
+    "cuota_aprox_mensual"
+  ],
+  "split": {
+    "test_size": 0.2,
+    "random_state": 42
+  },
+  "cv": {
+    "n_splits": 5,
+    "shuffle": true
+  },
+  "comparacion_cv": [
+    {
+      "modelo": "ridge_cv",
+      "rmse_cv": 1887.104,
+      "rmse_std": 216.96,
+      "mae_cv": 1317.565,
+      "r2_cv": 0.55
+    },
+    {
+      "modelo": "ridge_a1",
+      "rmse_cv": 1902.475,
+      "rmse_std": 213.748,
+      "mae_cv": 1356.318,
+      "r2_cv": 0.543
+    },
+    {
+      "modelo": "lineal_ols",
+      "rmse_cv": 1908.985,
+      "rmse_std": 214.477,
+      "mae_cv": 1361.662,
+      "r2_cv": 0.54
+    },
+    {
+      "modelo": "baseline_mediana",
+      "rmse_cv": 2974.667,
+      "rmse_std": 224.532,
+      "mae_cv": 1916.841,
+      "r2_cv": -0.121
+    }
+  ],
+  "mejor_modelo": "ridge_cv",
+  "alpha_seleccionado": 31.622776601683793,
+  "metricas_test": {
+    "mae_test": 1138.5537502934746,
+    "rmse_test": 1798.1417185043163,
+    "r2_test": 0.5960966572629465
+  },
+  "top10_coeficientes": [
+    {
+      "feature": "num__laufzeit",
+      "coef": 1488.33
+    },
+    {
+      "feature": "cat__rate_cat_lt20",
+      "coef": -1043.03
+    },
+    {
+      "feature": "cat__rate_cat_ge35",
+      "coef": 925.4
+    },
+    {
+      "feature": "cat__beruf_cat_high_qual_selfemp",
+      "coef": 725.15
+    },
+    {
+      "feature": "cat__verw_cat_business",
+      "coef": 614.83
+    },
+    {
+      "feature": "cat__verw_cat_car_new",
+      "coef": 538.26
+    },
+    {
+      "feature": "cat__moral_cat_delay",
+      "coef": 396.81
+    },
+    {
+      "feature": "cat__sparkont_cat_ge1000",
+      "coef": 350.1
+    },
+    {
+      "feature": "cat__famges_cat_female_single",
+      "coef": -337.42
+    },
+    {
+      "feature": "cat__laufkont_cat_lt0",
+      "coef": 331.11
+    }
+  ],
+  "modelo_guardado": "modelos\\regresion\\ridge_amount.pkl",
+  "figuras": [
+    "docs\\modelos\\figuras\\reg_pred_vs_real.png",
+    "docs\\modelos\\figuras\\reg_residuos.png"
+  ]
+}
