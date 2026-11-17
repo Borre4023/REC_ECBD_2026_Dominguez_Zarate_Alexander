@@ -149,3 +149,20 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
 - **Referencias actualizadas al diccionario v2** en README, informe de exploración técnica y esta bitácora (el archivo pasó de `diccionario_datos.md` a `diccionario_datos_v2.md`).
 - **Estructura de Carpetas.md** sincronizada con el árbol real del repositorio.
 - **Estado de sincronización:** los commits del 9 nov ya estaban publicados en `origin/main`; los de esta fecha quedan locales a la espera de push.
+
+### 2026-11-16 — Fase 1: ETL consolidado
+
+- **`src/etl/etl_south_german_credit.py` mejorado:** función `validate()` con contrato de calidad de 7
+  chequeos (filas conservadas, nulos, duplicados, códigos en catálogo, decodificación completa, consistencia
+  de la derivada y rangos lógicos) + reporte auditable `data/processed/reporte_calidad_etl.json`.
+- **Variable derivada** `cuota_aprox_mensual = hoehe / laufzeit` (media 167.69, mediana 130.33 DM/mes,
+  máximo 2482.67 en crédito grande de plazo corto).
+- **Dataset procesado regenerado:** 1000 × 40 (21 crudas + 18 `*_cat` + 1 derivada); CSV (205 KB),
+  Parquet (45 KB) y reporte JSON.
+- **`notebooks/02_preparacion_etl.ipynb` reescrito con enfoque didáctico** (19 celdas, 7 de código, 0
+  errores, ejecución secuencial): reutiliza `MAPPINGS`/`validate()` del script ETL en lugar de duplicar
+  lógica, e incluye interpretación escrita por apartado.
+- **`docs/analisis/etl_documentacion.md` ampliada:** flujo, tabla de mapeos completa, validaciones,
+  artefactos de carga y relación con las fases siguientes.
+- **Cierre de Unidad II publicado:** commit `749d067` (notebook 01 reejecutado 1→16, 0 errores) y tag
+  `v0.2-unidad2` en `origin`.
