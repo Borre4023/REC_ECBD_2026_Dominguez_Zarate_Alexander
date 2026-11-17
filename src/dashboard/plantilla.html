@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — Riesgo crediticio · South German Credit</title>
+<style>
+  :root {
+    --azul: #2c5f8a; --azul-osc: #1d3f5c; --rojo: #c0392b; --verde: #27ae60;
+    --gris: #5d6d7e; --fondo: #f4f6f8; --card: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; margin: 0;
+         background: var(--fondo); color: #2c3e50; }
+  header { background: linear-gradient(120deg, var(--azul-osc), var(--azul));
+           color: #fff; padding: 28px 36px; }
+  header h1 { margin: 0 0 6px; font-size: 1.6em; }
+  header p { margin: 0; opacity: .85; font-size: .95em; }
+  main { max-width: 1080px; margin: 0 auto; padding: 24px 20px 60px; }
+  section { background: var(--card); border-radius: 10px; padding: 22px 26px;
+            margin-bottom: 26px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  h2 { margin: 0 0 4px; color: var(--azul-osc); font-size: 1.25em; }
+  h2 .q { color: var(--rojo); }
+  .sub { color: var(--gris); font-size: .92em; margin: 0 0 16px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 14px; margin-top: 10px; }
+  .kpi { background: #eef3f7; border-left: 4px solid var(--azul);
+         border-radius: 8px; padding: 14px 16px; }
+  .kpi .num { font-size: 1.55em; font-weight: 700; color: var(--azul-osc); }
+  .kpi .lbl { font-size: .8em; color: var(--gris); margin-top: 3px; }
+  .kpi.rojo { border-color: var(--rojo); } .kpi.rojo .num { color: var(--rojo); }
+  table { border-collapse: collapse; width: 100%; font-size: .9em; margin: 12px 0 4px; }
+  th { background: var(--azul-osc); color: #fff; padding: 8px 10px; text-align: left; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e3e8ee; }
+  tr:hover td { background: #f2f7fb; }
+  td.num, th.num { text-align: right; }
+  .bad { color: var(--rojo); font-weight: 700; }
+  .good { color: var(--verde); font-weight: 700; }
+  .nota { background: #fdf6ec; border-left: 4px solid #e67e22; padding: 10px 14px;
+          border-radius: 6px; font-size: .92em; margin-top: 14px; }
+  .lectura { font-size: .95em; line-height: 1.5; margin-top: 12px; }
+  figure { margin: 14px 0 0; text-align: center; }
+  figure img { max-width: 100%; height: auto; border: 1px solid #e3e8ee;
+               border-radius: 8px; }
+  figcaption { font-size: .82em; color: var(--gris); margin-top: 6px; }
+  .dos-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 800px) { .dos-col { grid-template-columns: 1fr; } }
+  footer { text-align: center; color: var(--gris); font-size: .85em;
+           padding: 18px 0 40px; }
+  .chip { display: inline-block; background: #eef3f7; color: var(--azul-osc);
+          border-radius: 12px; padding: 2px 10px; font-size: .78em; margin: 2px 4px 2px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Dashboard de riesgo crediticio — South German Credit</h1>
+  <p>Proyecto Integrador · UTTT · Alexander Domínguez Zárate · generado desde el Data Mart SQLite
+     ({{ fecha }})</p>
+</header>
+<main>
+
+<section>
+  <h2>1 · Panorama general de la cartera</h2>
+  <p class="sub">Fuente: <code>fact_credito</code> / vista <code>dm_riesgo_crediticio</code> (1 000 créditos, 1973–1975)</p>
+  <div class="kpis">
+    <div class="kpi"><div class="num">{{ kpis.n_creditos }}</div><div class="lbl">créditos</div></div>
+    <div class="kpi rojo"><div class="num">{{ kpis.pct_bad }}%</div><div class="lbl">malos (bad)</div></div>
+    <div class="kpi"><div class="num">{{ kpis.monto_total }}</div><div class="lbl">monto total (DM)</div></div>
+    <div class="kpi"><div class="num">{{ kpis.monto_medio }}</div><div class="lbl">monto medio (DM)</div></div>
+    <div class="kpi"><div class="num">{{ kpis.plazo_medio }}</div><div class="lbl">plazo medio (meses)</div></div>
+    <div class="kpi"><div class="num">{{ kpis.cuota_media }}</div><div class="lbl">cuota aprox. (DM/mes)</div></div>
+  </div>
+  <div class="lectura">La cartera está desbalanceada ({{ kpis.pct_bad }}% bad) y su exposición media es
+    de {{ kpis.monto_medio }} DM a {{ kpis.plazo_medio }} meses. El análisis se organiza en tres
+    preguntas: <span class="chip">¿quién incumple?</span> <span class="chip">¿cuánta exposición?</span>
+    <span class="chip">¿qué modelos lo capturan?</span></div>
+</section>
+
+<section>
+  <h2>2 · <span class="q">Q1</span> ¿Qué historial crediticio concentra el riesgo?</h2>
+  <p class="sub">Tasa de incumplimiento por categoría de <code>moral</code> (Data Mart)</p>
+  {{ tabla_q1 }}
+  <div class="lectura"><b>Gradiente monotónico:</b> del {{ q1.peor.pct_bad }}% bad con historial de
+    atraso ({{ q1.peor.clave }}) al {{ q1.mejor.pct_bad }}% con historial limpio en el banco
+    ({{ q1.mejor.clave }}). Es la señal más fuerte del dataset y la variable estrella del
+    clasificador de la Unidad III.</div>
+</section>
+
+<section>
+  <h2>3 · <span class="q">Q3</span> ¿Cómo cambia el riesgo por situación de cuenta y ahorros?</h2>
+  <p class="sub">Combinaciones con ≥ 10 créditos, ordenadas por % bad</p>
+  <div class="dos-col">
+    <div>{{ tabla_q3 }}</div>
+    <div>
+      <div class="lectura"><b>Regla de negocio directa:</b> "sin cuenta corriente + sin ahorros
+        conocidos" multiplica ×{{ q3.razon }} el riesgo frente a "cuenta ≥ 200 DM + ahorros ≥ 1000"
+        ({{ q3.peor.pct_bad }}% vs {{ q3.mejor.pct_bad }}% bad).</div>
+      <div class="nota">Esta combinación es la segunda variable dominante del modelo de clasificación
+        (importancia 0.709 y 0.636).</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>4 · <span class="q">Q5</span> ¿El riesgo escala con el monto?</h2>
+  <p class="sub">Segmentación por rango de monto solicitado</p>
+  {{ tabla_q5 }}
+  <div class="lectura"><b>Patrón no lineal:</b> el riesgo baja primero ({{ q5.minimo.pct_bad }}% en
+    {{ q5.minimo.clave }}) y luego escala hasta <b>{{ q5.maximo.pct_bad }}%</b> en créditos ≥ 8000 DM.
+    Los chicos fallan por perfil; los grandes, por exposición.</div>
+</section>
+
+<section>
+  <h2>5 · <span class="q">Q2</span> ¿En qué propósitos se pide más dinero?</h2>
+  <p class="sub">Monto y cuota promedio por propósito (top 6 por monto)</p>
+  {{ tabla_q2 }}
+</section>
+
+<section>
+  <h2>6 · <span class="q">Q4</span> Créditos de mayor exposición mensual (top 10)</h2>
+  <p class="sub">Ordenados por cuota aproximada = monto / plazo (recalculada en SQL)</p>
+  {{ tabla_q4 }}
+  <div class="nota">{{ q4.pct_bad_top }}% del top-10 resultó <b>bad</b> (base {{ kpis.pct_bad }}%):
+    la cola de exposición extrema es en sí misma una cola de riesgo; los dos mayores
+    (≈ 2 400–2 500 DM/mes) incumplieron.</div>
+</section>
+
+<section>
+  <h2>7 · Modelos supervisados (Unidad III)</h2>
+  <p class="sub">sklearn · split 80/20 · CV 5-fold · detalles en <code>docs/modelos/evaluacion_modelos.md</code></p>
+  <div class="kpis">
+    <div class="kpi"><div class="num">{{ modelos.auc }}</div><div class="lbl">ROC-AUC test (clasificación)</div></div>
+    <div class="kpi"><div class="num">{{ modelos.recall_bad }}%</div><div class="lbl">bad detectados (46/60)</div></div>
+    <div class="kpi rojo"><div class="num">{{ modelos.fp }}</div><div class="lbl">falsas alarmas (good marcados)</div></div>
+    <div class="kpi"><div class="num">{{ modelos.r2 }}</div><div class="lbl">R² test (regresión del monto)</div></div>
+  </div>
+  <div class="dos-col">
+    <figure><img src="data:image/png;base64,{{ fig_roc }}" alt="Curvas ROC">
+      <figcaption>Curvas ROC en test — logística balanceada (AUC 0.835) sobre azar y RandomForest.</figcaption></figure>
+    <figure><img src="data:image/png;base64,{{ fig_matriz }}" alt="Matriz de confusión">
+      <figcaption>Matriz de confusión (umbral 0.49): 46 bad detectados, 14 escapes, 41 falsas alarmas.</figcaption></figure>
+  </div>
+  <div class="lectura">Una <b>regresión logística regularizada y balanceada</b> detecta el
+    <b>{{ modelos.recall_bad }}%</b> de los morosos a cambio de marcar el 29 % de los buenos para
+    revisión. En la regresión del monto, el plazo y la estructura de cuota explican el 60 % de la
+    varianza; los créditos &gt; 8000 DM quedan subestimados (tratar con reglas aparte).</div>
+</section>
+
+<section>
+  <h2>8 · Segmentos no supervisados (Unidad IV)</h2>
+  <p class="sub">K-means sin ver la respuesta · PCA como mapa 2D · detalles en <code>docs/modelos/clustering_pca.md</code></p>
+  <div class="dos-col">
+    <div>{{ tabla_clusters }}</div>
+    <figure><img src="data:image/png;base64,{{ fig_clusters }}" alt="Clústeres en PCA">
+      <figcaption>Clústeres en el plano PC1–PC2; PC1 es el eje exposición (monto × plazo).</figcaption></figure>
+  </div>
+  <figure><img src="data:image/png;base64,{{ fig_perfil_bad }}" alt="% bad por clúster">
+    <figcaption>Riesgo real por segmento vs. línea base 30 % — validación post-hoc.</figcaption></figure>
+  <div class="lectura">El clustering identifica dos economías del crédito:
+    <b>exposición alta</b> (254 clientes, {{ clu0.monto }} DM medios, 36 meses,
+    <b>{{ clu0.pct_bad }}% bad</b>) y <b>exposición baja</b> (746, {{ clu1.monto }} DM, 16 meses,
+    {{ clu1.pct_bad }}% bad). El segmento riesgoso es el <i>cliente solvente sobreexpuesto</i>
+    (empleo calificado, inmueble, auto nuevo): sugiere políticas diferenciadas por monto × plazo.</div>
+</section>
+
+<section>
+  <h2>9 · Pipeline y reproducibilidad</h2>
+  <p class="sub">Todo el flujo es reproducible desde la raíz del repositorio</p>
+  <div class="lectura">
+    <span class="chip">1. ETL: <code>py src/etl/etl_south_german_credit.py</code> (7/7 chequeos OK)</span>
+    <span class="chip">2. DW/DM: <code>py src/etl/build_dw_sqlite.py</code> (0 violaciones FK)</span>
+    <span class="chip">3. Modelos: <code>py src/models/entrenar_regresion.py</code> ·
+      <code>entrenar_clasificacion.py</code></span>
+    <span class="chip">4. Unidad IV: <code>py src/models/clustering_pca.py</code></span>
+    <span class="chip">5. Este dashboard: <code>py src/dashboard/generar_dashboard.py</code></span>
+  </div>
+  <div class="nota"><b>Limitaciones:</b> datos de 1973–1975 (DM), n = 1000, `hoehe` con transformación
+    no documentada, y los modelos tienen finalidad académica/analítica — no aprueban créditos reales.</div>
+</section>
+
+</main>
+<footer>Generado con jinja2 + matplotlib (figuras base64) · datos: dw_south_german_credit.db ·
+  Proyecto Integrador REC · UTTT · {{ fecha }}</footer>
+</body>
+</html>
