@@ -3,45 +3,55 @@
     └── 📁dashboard
     └── 📁data
         └── 📁processed
-            ├── .gitkeep
             ├── south_german_credit_processed.csv
-            ├── south_german_credit_processed.parquet
+            └── south_german_credit_processed.parquet
         └── 📁raw
             ├── codetable.txt
             ├── read_SouthGermanCredit.R
             ├── south+german+credit+update.zip
-            ├── SouthGermanCredit.asc
+            └── SouthGermanCredit.asc
     └── 📁docs
         └── 📁analisis
+            ├── codigo_fuente_figuras.md
             ├── etl_documentacion.md
+            ├── exploracion_tecnica.html
+            ├── exploracion_tecnica.md
             ├── propuesta_dw_datamart.md
+            └── 📁figuras
+                ├── fig1_hist_monto.png
+                ├── fig2_boxplot_numericas.png
+                ├── fig3_barras_riesgo_historial.png
+                ├── fig4_dispersion_monto_plazo.png
+                └── fig5_correlacion.png
         └── 📁diccionario_datos
-            ├── diccionario_datos.md
+            ├── diccionario_datos_v1.md
+            └── diccionario_datos_v2.md
         └── 📁modelos
             ├── resumen_regresion_clasificacion.md
         └── 📁planeacion
-            ├── Domínguez_Zárate_Alexander_U1_PlaneacionProyecto.pdf
+            └── Domínguez_Zárate_Alexander_U1_PlaneacionProyecto.pdf
         └── 📁resultados
-        ├── Informe de cambios (actualiza esta cosa cada cambio).md
+        └── Informe de cambios (actualiza esta cosa cada cambio).md
     └── 📁modelos
         └── 📁clasificacion
-            ├── clasificacion_logistic_manual_creditrisk.pkl
+            └── clasificacion_logistic_manual_creditrisk.pkl
         └── 📁clustering
         └── 📁regresion
-            ├── regresion_linear_manual_amount.pkl
-        ├── .gitkeep
+            └── regresion_linear_manual_amount.pkl
     └── 📁notebooks
         ├── 01_exploracion.ipynb
         ├── 02_preparacion_etl.ipynb
         ├── 03_regresion.ipynb
-        ├── 04_clasificacion.ipynb
+        └── 04_clasificacion.ipynb
     └── 📁sql
-        ├── schema_dw.sql
+        └── schema_dw.sql
     └── 📁src
         └── 📁etl
-            ├── etl_south_german_credit.py
+            └── etl_south_german_credit.py
         └── 📁models
         └── 📁preprocessing
+            ├── exploracion_tecnica.py
+            └── figuras_fuente.py
     ├── README.md
     ├── run_clas_manual.py
     ├── run_clas_manual2.py

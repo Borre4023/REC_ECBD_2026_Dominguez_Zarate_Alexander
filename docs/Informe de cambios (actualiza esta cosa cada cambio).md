@@ -3,7 +3,8 @@
 **Alumno:** Alexander Domínguez Zárate  
 **Matrícula:** 23301324  
 **Materia:** Extracción de Conocimiento en Bases de Datos  
-**Fecha:** 2026-10-27  
+**Fecha:** 2026-10-27
+**Última actualización:** 2026-11-16  
 
 ## 1. Objetivo general
 Analizar el dataset South German Credit (UCI) mediante metodología KDD/CRISP-DM para identificar patrones de riesgo crediticio, preparar los datos (ETL), proponer un DW/Data Mart, y desarrollar modelos de regresión y clasificación, con fines académicos y formativos.
@@ -22,7 +23,7 @@ Analizar el dataset South German Credit (UCI) mediante metodología KDD/CRISP-DM
 - **Periodo:** 1973-1975
 
 ### 3.1. Diccionario de datos
-Se elaboró `docs/diccionario_datos/diccionario_datos.md` con mapeo completo basado en `data/raw/codetable.txt`:
+Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo basado en `data/raw/codetable.txt` (la versión inicial se conserva como `diccionario_datos_v1.md`):
 - Variables numéricas: `duration` (laufzeit), `amount` (hoehe), `age` (alter)
 - Categóricas/ordinales/binarías decodificadas: `status`, `credit_history`, `purpose`, `savings`, `employment_duration`, `installment_rate`, `personal_status_sex`, `other_debtors`, `present_residence`, `property`, `other_installment_plans`, `housing`, `number_credits`, `job`, `people_liable`, `telephone`, `foreign_worker`
 - Variable objetivo: `credit_risk` (0 bad / 1 good)
@@ -117,7 +118,7 @@ Se elaboró `docs/diccionario_datos/diccionario_datos.md` con mapeo completo bas
 - Evaluación integral con métricas robustas
 
 **Archivos clave generados hasta el momento:**
-- Diccionario: `docs/diccionario_datos/diccionario_datos.md`
+- Diccionario: `docs/diccionario_datos/diccionario_datos_v2.md`
 - ETL: `src/etl/etl_south_german_credit.py`
 - Datos procesados: `data/processed/south_german_credit_processed.csv`
 - DW/DM: `docs/analisis/propuesta_dw_datamart.md`, `sql/schema_dw.sql`
@@ -125,3 +126,26 @@ Se elaboró `docs/diccionario_datos/diccionario_datos.md` con mapeo completo bas
 - Modelos: `modelos/regresion/`, `modelos/clasificacion/`
 - Resumen: `docs/modelos/resumen_regresion_clasificacion.md`
 - README actualizado
+
+## 10. Registro de cambios (bitácora)
+
+> Apartado que registra cada actualización del proyecto a partir del 9 de noviembre de 2026.
+
+### 2026-11-09 — Unidad II: exploración técnica
+
+- **Diccionario de datos v2** (`docs/diccionario_datos/diccionario_datos_v2.md`): alineado a los 8 campos solicitados (nombre, descripción, tipo Python, tipo de variable, clasificación, unidad, utilidad); la versión anterior se conserva como evidencia en `diccionario_datos_v1.md`.
+- **Informe de exploración técnica** (`docs/analisis/exploracion_tecnica.md` + versión HTML autocontenida `exploracion_tecnica.html`): 10 secciones — herramientas, carga con las 6 instrucciones Pandas interpretadas, diccionario, tipo/fuente de los datos, diagnóstico de calidad (nulos 0, duplicados 0, 7 inconsistencias de codificación), estadísticos de `laufzeit`/`hoehe`/`alter`, atípicos por IQR (70/72/23), 4 visualizaciones, propuestas de regresión/clasificación/clustering y las 10 preguntas de conclusión.
+- **Figuras** (`docs/analisis/figuras/fig1..fig5.png`): histograma del monto, boxplots de las numéricas, barras de % good por historial, dispersión monto–plazo y matriz de correlación.
+- **Scripts** (`src/preprocessing/`): `exploracion_tecnica.py` (estadísticos y generación de figuras) y `figuras_fuente.py` (fuente canónica de las figuras, con comentarios en los 7 puntos de traspaso Pandas → Matplotlib).
+- **Documentación del código de las figuras** (`docs/analisis/codigo_fuente_figuras.md`): código completo por figura, lectura Pandas → Matplotlib y fichas de preservación con SHA-256. Verificado: regenerar las figuras produce PNG idénticos byte a byte.
+- **Notebook** `notebooks/01_exploracion.ipynb` reescrito con enfoque didáctico: instrucción → salida → interpretación escrita.
+- **README**: sección "Avance actual" reconstruida, cronograma con columna Estado, badge y rutas corregidos.
+- **Limpieza**: eliminación de `.gitkeep` obsoletos (`data/processed/`, `modelos/`).
+- **Commits:** `b750806` (diccionario v2), `f9f2e8d` (scripts), `658aac8` (figuras), `b650907` (código fuente de figuras), `457ca1a` (informe), `715fd2a` (notebook), `ce7f998` (README), `e740228` (limpieza).
+
+### 2026-11-16 — Trazabilidad y repositorio
+
+- **`.gitignore` agregado** (`0a2d081`): corrige la omisión del commit `e740228`, cuyo mensaje lo anunciaba pero no lo incluía. Ignora `__pycache__/`, `.ipynb_checkpoints/` y temporales de Office/OneDrive.
+- **Referencias actualizadas al diccionario v2** en README, informe de exploración técnica y esta bitácora (el archivo pasó de `diccionario_datos.md` a `diccionario_datos_v2.md`).
+- **Estructura de Carpetas.md** sincronizada con el árbol real del repositorio.
+- **Estado de sincronización:** los commits del 9 nov ya estaban publicados en `origin/main`; los de esta fecha quedan locales a la espera de push.

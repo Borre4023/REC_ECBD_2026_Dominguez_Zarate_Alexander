@@ -105,7 +105,7 @@ Todas las columnas son `int64`.
 
 ## 3) Diccionario de datos
 
-El detalle completo por campo solicitado (nombre, descripción, tipo en Python, tipo de variable, clasificación, unidad y utilidad) está en `docs/diccionario_datos/diccionario_datos.md`. Resumen:
+El detalle completo por campo solicitado (nombre, descripción, tipo en Python, tipo de variable, clasificación, unidad y utilidad) está en `docs/diccionario_datos/diccionario_datos_v2.md`. Resumen:
 
 | Variable | Descripción | Tipo Python | Tipo de variable | Clasificación | Unidad | Posible utilidad |
 |---|---|---|---|---|---|---|
@@ -318,4 +318,4 @@ py src/preprocessing/exploracion_tecnica.py
 jupyter notebook notebooks/01_exploracion.ipynb
 ```
 
-**Archivos asociados:** `docs/diccionario_datos/diccionario_datos.md` (diccionario con los 8 campos solicitados), `docs/analisis/figuras/fig1 a fig5 (.png)`, `notebooks/01_exploracion.ipynb`.
+**Archivos asociados:** `docs/diccionario_datos/diccionario_datos_v2.md` (diccionario con los 8 campos solicitados), `docs/analisis/figuras/fig1 a fig5 (.png)`, `notebooks/01_exploracion.ipynb`.

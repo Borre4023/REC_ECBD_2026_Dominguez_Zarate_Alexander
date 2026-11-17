@@ -58,7 +58,7 @@ El proyecto se desarrolla como un ejercicio de **KDD** que incluye análisis exp
 
 ## Avance actual
 
-- [x] Diccionario de datos v2 con los 8 campos de la Unidad II (`docs/diccionario_datos/diccionario_datos.md`; versión anterior respaldada en `diccionario_datos_v1_respaldo.md`)
+- [x] Diccionario de datos v2 con los 8 campos de la Unidad II (`docs/diccionario_datos/diccionario_datos_v2.md`; versión anterior respaldada en `diccionario_datos_v1.md`)
 - [x] Exploración y limpieza inicial (`notebooks/01_exploracion.ipynb`, `notebooks/02_preparacion_etl.ipynb`)
 - [x] ETL implementado (`src/etl/etl_south_german_credit.py`) y datos procesados generados (`data/processed/`)
 - [x] Propuesta de Data Warehouse/Data Mart (`docs/analisis/propuesta_dw_datamart.md`)
