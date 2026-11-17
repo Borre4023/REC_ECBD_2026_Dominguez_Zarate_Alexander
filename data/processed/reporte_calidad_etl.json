@@ -1,0 +1,74 @@
+{
+  "fecha": "2026-11-16T19:16:11",
+  "shape_entrada": [
+    1000,
+    21
+  ],
+  "shape_salida": [
+    1000,
+    40
+  ],
+  "columnas_nuevas": [
+    "beruf_cat",
+    "beszeit_cat",
+    "bishkred_cat",
+    "buerge_cat",
+    "cuota_aprox_mensual",
+    "famges_cat",
+    "gastarb_cat",
+    "kredit_cat",
+    "laufkont_cat",
+    "moral_cat",
+    "pers_cat",
+    "rate_cat",
+    "sparkont_cat",
+    "telef_cat",
+    "verm_cat",
+    "verw_cat",
+    "weitkred_cat",
+    "wohn_cat",
+    "wohnzeit_cat"
+  ],
+  "cheques": [
+    {
+      "check": "filas_conservadas",
+      "ok": true,
+      "detalle": "raw=1000 dec=1000 esperado=1000"
+    },
+    {
+      "check": "sin_nulos",
+      "ok": true,
+      "detalle": "total_nulos=0"
+    },
+    {
+      "check": "sin_duplicados",
+      "ok": true,
+      "detalle": "duplicados=0"
+    },
+    {
+      "check": "codigos_en_catalogo",
+      "ok": true,
+      "detalle": "columnas_con_codigos_invalidos=ninguna"
+    },
+    {
+      "check": "decodificacion_completa",
+      "ok": true,
+      "detalle": "columnas_sin_decodificar=ninguna"
+    },
+    {
+      "check": "cuota_aprox_consistente",
+      "ok": true,
+      "detalle": "cuota_aprox_mensual = hoehe / laufzeit (redondeo 2 decimales)"
+    },
+    {
+      "check": "rangos_logicos_ok",
+      "ok": true,
+      "detalle": {
+        "laufzeit": true,
+        "hoehe": true,
+        "alter": true
+      }
+    }
+  ],
+  "todo_ok": true
+}
