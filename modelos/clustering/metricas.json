@@ -1,0 +1,218 @@
+{
+  "fecha": "2026-11-16T19:44:17",
+  "dataset": "data\\processed\\south_german_credit_processed.csv",
+  "matriz_shape": [
+    1000,
+    71
+  ],
+  "excluidas": [
+    "kredit",
+    "kredit_cat",
+    "cuota_aprox_mensual"
+  ],
+  "pca": {
+    "n_componentes": 70,
+    "var_primeras5": [
+      0.1498,
+      0.1033,
+      0.0568,
+      0.0454,
+      0.0421
+    ],
+    "cp_para_80pct": 23,
+    "cp_para_90pct": 31,
+    "top_loadings_pc1": {
+      "num__hoehe": {
+        "PC1": 0.674,
+        "PC2": -0.074
+      },
+      "num__laufzeit": {
+        "PC1": 0.643,
+        "PC2": -0.165
+      },
+      "cat__telef_cat_no": {
+        "PC1": -0.138,
+        "PC2": -0.086
+      },
+      "cat__telef_cat_yes": {
+        "PC1": 0.138,
+        "PC2": 0.086
+      },
+      "cat__verm_cat_unknown": {
+        "PC1": -0.114,
+        "PC2": 0.012
+      },
+      "cat__verm_cat_real_estate": {
+        "PC1": 0.091,
+        "PC2": 0.079
+      },
+      "cat__beruf_cat_high_qual_selfemp": {
+        "PC1": 0.091,
+        "PC2": 0.046
+      },
+      "cat__famges_cat_male_married_widowed": {
+        "PC1": 0.086,
+        "PC2": 0.143
+      }
+    }
+  },
+  "seleccion_k": [
+    {
+      "k": 2,
+      "inercia": 10728.269,
+      "silhouette": 0.131
+    },
+    {
+      "k": 3,
+      "inercia": 10013.49,
+      "silhouette": 0.086
+    },
+    {
+      "k": 4,
+      "inercia": 9643.591,
+      "silhouette": 0.07
+    },
+    {
+      "k": 5,
+      "inercia": 9407.208,
+      "silhouette": 0.062
+    },
+    {
+      "k": 6,
+      "inercia": 9205.872,
+      "silhouette": 0.053
+    },
+    {
+      "k": 7,
+      "inercia": 9028.095,
+      "silhouette": 0.055
+    },
+    {
+      "k": 8,
+      "inercia": 8876.033,
+      "silhouette": 0.054
+    }
+  ],
+  "mejor_k": 2,
+  "silhouette": 0.131,
+  "inercia": 10728.3,
+  "perfil_clusters": [
+    {
+      "cluster": 0,
+      "tamaño": 254,
+      "pct_bad": 43.7,
+      "plazo_medio": 36.0,
+      "monto_medio": 6895.2,
+      "edad_media": 36.4
+    },
+    {
+      "cluster": 1,
+      "tamaño": 746,
+      "pct_bad": 25.3,
+      "plazo_medio": 15.8,
+      "monto_medio": 2037.4,
+      "edad_media": 35.2
+    }
+  ],
+  "categorias_distintivas": {
+    "0": {
+      "mas_presentes": [
+        [
+          "telef_cat_yes",
+          0.202
+        ],
+        [
+          "beruf_cat_high_qual_selfemp",
+          0.163
+        ],
+        [
+          "verm_cat_real_estate",
+          0.145
+        ],
+        [
+          "famges_cat_male_married_widowed",
+          0.129
+        ],
+        [
+          "verw_cat_car_new",
+          0.125
+        ]
+      ],
+      "mas_ausentes": [
+        [
+          "telef_cat_no",
+          -0.202
+        ],
+        [
+          "verm_cat_unknown",
+          -0.18
+        ],
+        [
+          "beruf_cat_unskilled_resident",
+          -0.117
+        ],
+        [
+          "moral_cat_no_credits_or_paid",
+          -0.105
+        ],
+        [
+          "rate_cat_lt20",
+          -0.098
+        ]
+      ]
+    },
+    "1": {
+      "mas_presentes": [
+        [
+          "telef_cat_no",
+          0.069
+        ],
+        [
+          "verm_cat_unknown",
+          0.061
+        ],
+        [
+          "beruf_cat_unskilled_resident",
+          0.04
+        ],
+        [
+          "moral_cat_no_credits_or_paid",
+          0.036
+        ],
+        [
+          "rate_cat_lt20",
+          0.033
+        ]
+      ],
+      "mas_ausentes": [
+        [
+          "telef_cat_yes",
+          -0.069
+        ],
+        [
+          "beruf_cat_high_qual_selfemp",
+          -0.056
+        ],
+        [
+          "verm_cat_real_estate",
+          -0.049
+        ],
+        [
+          "famges_cat_male_married_widowed",
+          -0.044
+        ],
+        [
+          "verw_cat_car_new",
+          -0.043
+        ]
+      ]
+    }
+  },
+  "modelo_guardado": "modelos\\clustering\\kmeans_credit.pkl",
+  "figuras": [
+    "docs\\modelos\\figuras\\pca_varianza.png",
+    "docs\\modelos\\figuras\\kmeans_seleccion_k.png",
+    "docs\\modelos\\figuras\\pca_clusters.png",
+    "docs\\modelos\\figuras\\clu_perfil_bad.png"
+  ]
+}
