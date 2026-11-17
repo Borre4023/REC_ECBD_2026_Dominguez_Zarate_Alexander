@@ -209,3 +209,25 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
 - **Consistencia con el Data Mart:** las variables dominantes del clasificador (`laufkont`, `moral`,
   `sparkont`) coinciden con los gradientes de riesgo de las consultas Q1/Q3; la regresión reproduce
   la relación monto-cuota-plazo y el patrón no lineal de Q5.
+
+### 2026-11-16 — Fase 4: Unidad IV (clustering y PCA)
+
+- **`src/models/clustering_pca.py`:** segmentación no supervisada sin ver la respuesta (excluye
+  `kredit`, `kredit_cat`, `cuota_aprox_mensual`); matriz 1000×71 (3 numéricas estandarizadas +
+  17 `*_cat` one-hot); PCA completo, K-means k=2..8 con codo + silhouette y perfil de clústeres
+  con validación post-hoc del % bad.
+- **PCA:** varianza muy repartida (PC1 = 15 %); 23 componentes para 80 %, 31 para 90 %. PC1 es el
+  **eje de exposición**: loadings `hoehe` 0.674 y `laufzeit` 0.643.
+- **Clustering:** mejor k = **2** (silhouette 0.131, bajo en absoluto = solape esperado con dummies):
+  clúster 0 "exposición alta" (254 clientes, monto medio 6895 DM, plazo 36 meses, **43.7 % bad**) vs.
+  clúster 1 "exposición baja" (746, 2037 DM, 16 meses, 25.3 % bad). Validación post-hoc: sin ver
+  `kredit`, los segmentos casi triplican el gradiente de riesgo (base 30 %).
+- **Perfil cualitativo:** el segmento riesgoso es el *cliente solvente sobreexpuesto*
+  (`telef_yes` +0.20, `beruf_high_qual_selfemp` +0.16, `verm_real_estate` +0.15, `verw_car_new` +0.13),
+  no el marginal.
+- **Figuras:** `pca_varianza.png`, `kmeans_seleccion_k.png`, `pca_clusters.png`, `clu_perfil_bad.png`.
+- **Artefactos:** `modelos/clustering/kmeans_credit.pkl` (preprocesador + kmeans + pca) + `metricas.json`.
+- **`notebooks/05_clustering_pca.ipynb` didáctico** (23 celdas, 9 de código, 0 errores, secuencial):
+  reutiliza el script y documenta interpretación de cada apartado.
+- **`docs/modelos/clustering_pca.md`:** diseño, tablas reales de PCA/silhouette/perfiles, lectura de
+  negocio, uso recomendado (2 políticas por exposición) y 4 limitaciones.
