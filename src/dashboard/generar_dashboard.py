@@ -123,11 +123,14 @@ def main():
     tabla_q1 = df_a_html(q1df, {'pct_bad': lambda v: f'<span class="bad">{v}%</span>'})
     q1 = {'peor': q1df.iloc[0], 'mejor': q1df.iloc[-1]}
 
-    # ---- Q3 cuenta+ahorros (≥10 créditos, top 8) ----
-    q3df = consultar(SQL_Q3).head(8)
+    # ---- Q3 cuenta+ahorros (≥10 créditos, todas las combinaciones) ----
+    q3df = consultar(SQL_Q3)
     tabla_q3 = df_a_html(q3df, {'pct_bad': lambda v: f'<span class="bad">{v}%</span>'})
-    q3 = {'peor': q3df.iloc[0], 'mejor': q3df.iloc[-1],
-          'razon': round(q3df.iloc[0]['pct_bad'] / q3df.iloc[-1]['pct_bad'], 1)}
+    q3_peor = q3df.iloc[0]
+    clave_mejor = 'ge200_or_salary + ahorros ge1000'
+    q3_mejor = q3df.loc[q3df['clave'] == clave_mejor].iloc[0]
+    q3 = {'peor': q3_peor, 'mejor': q3_mejor,
+          'razon': round(q3_peor['pct_bad'] / q3_mejor['pct_bad'], 1)}
 
     # ---- Q5 monto ----
     q5df = consultar(SQL_Q5)
