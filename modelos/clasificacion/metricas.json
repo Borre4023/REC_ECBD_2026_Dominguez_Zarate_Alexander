@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-16T19:36:20",
+  "fecha": "2026-11-20T07:50:14",
   "dataset": "data\\processed\\south_german_credit_processed.csv",
   "target": "kredit",
   "clase_positiva": "bad (kredit=0)",
@@ -71,6 +71,7 @@
   "metricas_test": {
     "roc_auc_test": 0.8353571428571429,
     "umbral": 0.48999999999999994,
+    "accuracy_test": 0.725,
     "precision_bad": 0.5287356321839081,
     "recall_bad": 0.7666666666666667,
     "f1_bad": 0.6258503401360545

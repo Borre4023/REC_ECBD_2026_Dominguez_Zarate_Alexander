@@ -70,7 +70,7 @@ El proceso de **Descubrimiento de Conocimiento en Bases de Datos (KDD)** compren
 
 ### 2.2 Riesgo crediticio y desbalance de clases
 
-En datos crediticios la clase de interés suele ser minoritaria: aquí 300 créditos son malos (30 %) y 700 buenos (70 %). Evaluarse solo con *exactitud* sería engañoso (predecir todo "bueno" logra 70 % sin detectar ningún malo); por ello se usan precision, recall, F1, matriz de confusión y ROC-AUC. La clase positiva de análisis se define como **malo (bad)**, porque es lo que el banco debe detectar.
+En datos crediticios la clase de interés suele ser minoritaria: aquí 300 créditos son malos (30 %) y 700 buenos (70 %). Evaluarse solo con *exactitud* sería engañoso (predecir todo "bueno" logra 70 % sin detectar ningún malo); por ello se usan precision, recall, F1, matriz de confusión y ROC-AUC. La **accuracy se reporta igualmente** (72.5 % en prueba) por completitud de la evaluación, pero se interpreta como métrica secundaria: depende de la prevalencia y apenas supera el 70 % de un clasificador trivial. La clase positiva de análisis se define como **malo (bad)**, porque es lo que el banco debe detectar.
 
 ### 2.3 Técnicas empleadas
 
@@ -252,6 +252,7 @@ Los coeficientes estandarizados son interpretables: `laufzeit` (+1 488 DM por σ
 | Métrica | Valor | Lectura |
 |---|---:|---|
 | ROC-AUC | **0.835** | supera la meta (> 0.70) y al modelo manual de U2 (0.703) |
+| Accuracy | 0.725 | 72.5 %: solo 2.5 pp sobre el 70 % de predecir todo "good"; métrica secundaria ligada a la prevalencia |
 | Recall bad | **0.767** | detecta 46 de los 60 malos del test |
 | Precisión bad | 0.529 | 47 de cada 100 alertas son falsa alarma |
 | F1 (bad) | 0.626 | balance recall/precisión |
@@ -356,7 +357,7 @@ El entregable de comunicación es un **dashboard HTML autocontenido** (`dashboar
 
 ![Captura 4](capturas/04_modelos_segmentos.png)
 
-**Captura 4.** Resultados de los modelos supervisados (AUC 0.835; 77 % de bads detectados; 41 falsas alarmas; R² 0.596 con figuras ROC y matriz de confusión incrustadas) y de los segmentos no supervisados (tabla de exposición alta/baja, plano PCA y validación post-hoc del % bad).
+**Captura 4.** Resultados de los modelos supervisados (AUC 0.835; accuracy 72.5 %; 77 % de bads detectados; 41 falsas alarmas; R² 0.596 con figuras ROC y matriz de confusión incrustadas) y de los segmentos no supervisados (tabla de exposición alta/baja, plano PCA y validación post-hoc del % bad).
 
 ---
 
@@ -370,6 +371,13 @@ Los tres componentes del proyecto convergen en una misma historia, verificada po
 4. **Respuesta a las preguntas específicas.** (1) Clasificación: sí, con AUC 0.835/0.77 y detección del 77 % de los malos. (2) Regresión: sí con límites (R² 0.60, útil por rangos). (3) No supervisado: sí, dos segmentos defendibles con valor de negocio.
 
 Estos niveles de desempeño son consistentes con lo publicado para el dataset German Credit/South German Credit, donde los clasificadores bien regularizados alcanzan típicamente AUC en el rango 0.70–0.80 (Groemping, 2019); el valor obtenido se ubica en el extremo superior de ese rango sin ingeniería de variables especial.
+
+### 8.1 Recomendaciones de negocio
+
+1. **Controlar la exposición, no solo el perfil.** Los tres análisis coinciden: el riesgo crece con monto × plazo. Política sugerida: revisión reforzada y garantías adicionales para créditos ≥ 8 000 DM o plazos ≥ 36 meses (Q5: 54.3 % bad; clúster alto: 43.7 %).
+2. **Usar cuenta y ahorros como semáforo.** "Sin cuenta + sin ahorros" concentra 52.1 % bad frente a 9.1 % de "cuenta ≥ 200 DM + ahorros ≥ 1000" (×5.7): exigir aval o ajustar precio en el primer caso y habilitar flujo ágil en el segundo.
+3. **Fijar el punto de operación con la matriz de costos.** El umbral 0.49 prioriza detectar morosos (77 %) a costa de 29 % de falsas alarmas; debe recalibrarse con el costo real de un crédito incobrable frente al de una revisión manual.
+4. **Monitorear y reentrenar.** Validación *out-of-time*, vigilancia de deriva (variables de época como `telef` o `gastarb`) y revisión de equidad antes de cualquier uso real; el modelo es un apoyo analítico, no un aprobador automático.
 
 ---
 
@@ -483,6 +491,7 @@ Versión didáctica paso a paso: notebooks `01`–`05` en `notebooks/` (ejecutad
 |---|---|---:|
 | Clasificación (logística C=0.1) | ROC-AUC (CV / test) | 0.772 / **0.835** |
 | | Recall bad / Precisión bad | 0.767 / 0.529 |
+| | Accuracy | 0.725 |
 | | Matriz (TP, FN, FP, TN) | 46, 14, 41, 99 |
 | Regresión (RidgeCV α=31.62) | R² (CV / test) | 0.550 / **0.596** |
 | | RMSE / MAE (DM) | 1 798 / 1 139 |

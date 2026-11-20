@@ -4,7 +4,7 @@
 **Matrícula:** 23301324  
 **Materia:** Extracción de Conocimiento en Bases de Datos  
 **Fecha:** 2026-10-27
-**Última actualización:** 2026-11-16  
+**Última actualización:** 2026-11-20  
 
 ## 1. Objetivo general
 Analizar el dataset South German Credit (UCI) mediante metodología KDD/CRISP-DM para identificar patrones de riesgo crediticio, preparar los datos (ETL), proponer un DW/Data Mart, y desarrollar modelos de regresión y clasificación, con fines académicos y formativos.
@@ -278,3 +278,26 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
 - **Verificación final:** pipeline completo reejecutado en secuencia (ETL 7/7, DW 0 FK,
   R² 0.596, AUC 0.835, k=2) con cifras coincidentes con el informe.
 - **Tag de cierre:** `v1.0-entrega-final` (creado tras el push).
+
+### 2026-11-20 — Cierre de rúbrica: accuracy y recomendaciones de negocio
+
+- **Auditoría contra la rúbrica oficial** (Unidades II–V): 26/28 viñetas ya cubiertas; se
+  detectaron dos huecos: (a) la rúbrica pide **accuracy** explícitamente y solo se reportaban
+  precision/recall/F1/matriz; (b) las recomendaciones estaban implícitas en la discusión.
+- **`src/models/entrenar_clasificacion.py`:** se agrega `accuracy_test` a `metricas_test`
+  (desde las predicciones con el umbral 0.49). Resultado: **0.725** (145/200), coherente con
+  la matriz de confusión; el resto de métricas se mantiene idéntico (AUC 0.835, recall 0.767,
+  F1 0.626).
+- **`docs/modelos/evaluacion_modelos.md`:** fila de accuracy con lectura crítica (solo 2.5 pp
+  sobre el 70 % del baseline trivial; métrica secundaria dependiente de la prevalencia).
+- **Informe final:** accuracy en §2.2 (justificación de por qué no es criterio principal),
+  Tabla 6 y Anexo D; nueva **§8.1 Recomendaciones de negocio** (control de exposición,
+  semáforo cuenta+ahorros, punto de operación por costos, monitoreo/reentrenamiento);
+  Captura 4 actualizada. HTML re-exportado (2.18 MB, 13 imágenes).
+- **Dashboard:** nueva métrica "accuracy 72.5 % (no principal: base 70 %)" en la sección de
+  modelos; dashboard regenerado (377 127 B) y captura 04 recapturada (1520×2930).
+- **Entorno:** el Python 3.11 del sistema fue reemplazado por 3.15; un bloqueo transitorio de
+  App Control impidió cargar scipy. Se instaló 3.11.9 vía `py install 3.11` como respaldo y
+  se verificó que el pipeline corre tanto con `py` (3.15) como con `py -3.11`, con cifras
+  idénticas.
+- **Guía de defensa:** sigue retenida fuera del repositorio (se publicará después del 20).

@@ -164,6 +164,7 @@ def main():
     cm = m_cla['matriz_confusion_test']  # [[TP,FN],[FP,TN]]
     modelos = {
         'auc': round(m_cla['metricas_test']['roc_auc_test'], 3),
+        'accuracy': round(100 * m_cla['metricas_test']['accuracy_test'], 1),
         'recall_bad': round(100 * cm[0][0] / (cm[0][0] + cm[0][1])),
         'fp': cm[1][0],
         'r2': round(m_reg['metricas_test']['r2_test'], 3),

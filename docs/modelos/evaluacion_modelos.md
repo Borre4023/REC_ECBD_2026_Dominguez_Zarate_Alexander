@@ -100,6 +100,7 @@ el `class_weight='balanced'` ya compensa el desbalance 700/300 internamente.
 | Métrica | Valor | Lectura |
 |---|---:|---|
 | ROC-AUC | **0.835** | supera la meta (>0.70) y al modelo manual de U2 (0.703) |
+| Accuracy | 0.725 | 72.5 %: solo 2.5 pp sobre el 70 % de predecir todo "good"; se reporta por completitud, no como criterio (depende de la prevalencia) |
 | Recall bad | **0.767** | detecta 46 de los 60 bad del test |
 | Precisión bad | 0.529 | 47 de cada 100 alertas son falsa alarma |
 | F1 (bad) | 0.626 | balance recall/precisión |

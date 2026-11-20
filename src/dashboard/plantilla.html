@@ -130,6 +130,7 @@
   <p class="sub">sklearn · split 80/20 · CV 5-fold · detalles en <code>docs/modelos/evaluacion_modelos.md</code></p>
   <div class="kpis">
     <div class="kpi"><div class="num">{{ modelos.auc }}</div><div class="lbl">ROC-AUC test (clasificación)</div></div>
+    <div class="kpi"><div class="num">{{ modelos.accuracy }}%</div><div class="lbl">accuracy (no principal: base 70 %)</div></div>
     <div class="kpi"><div class="num">{{ modelos.recall_bad }}%</div><div class="lbl">bad detectados (46/60)</div></div>
     <div class="kpi rojo"><div class="num">{{ modelos.fp }}</div><div class="lbl">falsas alarmas (good marcados)</div></div>
     <div class="kpi"><div class="num">{{ modelos.r2 }}</div><div class="lbl">R² test (regresión del monto)</div></div>

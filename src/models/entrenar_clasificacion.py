@@ -34,8 +34,9 @@ from sklearn.compose import ColumnTransformer
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import (confusion_matrix, f1_score, precision_score,
-                             recall_score, roc_auc_score, roc_curve)
+from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
+                             precision_score, recall_score, roc_auc_score,
+                             roc_curve)
 from sklearn.model_selection import (StratifiedKFold, cross_val_predict,
                                      cross_validate, train_test_split)
 from sklearn.pipeline import Pipeline
@@ -126,6 +127,7 @@ def evaluar_test(pipe, umbral, X_train, y_train, X_test, y_test):
     return {
         'roc_auc_test': float(roc_auc_score(y_true_bad, proba_bad)),
         'umbral': umbral,
+        'accuracy_test': float(accuracy_score(y_true_bad, pred_bad)),
         'precision_bad': float(precision_score(y_true_bad, pred_bad)),
         'recall_bad': float(recall_score(y_true_bad, pred_bad)),
         'f1_bad': float(f1_score(y_true_bad, pred_bad)),
