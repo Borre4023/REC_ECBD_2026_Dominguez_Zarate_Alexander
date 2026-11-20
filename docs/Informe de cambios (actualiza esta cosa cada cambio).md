@@ -261,7 +261,7 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
   top-8 (24.4 %) en vez del segmento real "cuenta ≥ 200 + ahorros ≥ 1000" (9.1 %, regla ×5.7);
   `generar_dashboard.py` corregido para mostrar todas las combinaciones ≥ 10 créditos y regenerado
   (377 013 bytes). Capturas rehechas.
-- **Informe final borrador** (`docs/resultados/informe_final_borrador.md` + `.html`, APA 7):
+- **Informe final** (`docs/resultados/informe_final.md` + `.html`, APA 7):
   resumen, marco teórico KDD/CRISP-DM, materiales y métodos, Unidades II–IV con figuras y
   tablas reales, dashboard con 4 capturas y cita del dashboard en GitHub, discusión integrada,
   limitaciones, conclusiones por objetivo, referencias (Fayyad, Groemping, Kimball, sklearn,
@@ -343,3 +343,32 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
 - **Informe final:** nueva §7.5 "Dashboard alternativo en Power BI" (capturas 5–8) y
   entradas en los Anexos A, B y C; HTML regenerado con pandoc.
 - **README:** Power BI marcado como completado; capturas y `.pbix` en la tabla de documentación.
+
+### 2026-11-20 — Rúbrica de cierre: storytelling, regresión en el dashboard e informe en PDF
+
+- **Auditoría contra la rúbrica de cierre:** faltaban el informe en PDF, resultados de
+  regresión más allá del R² en el dashboard y la secuencia completa de storytelling
+  (el dashboard empezaba en el panorama y no tenía recomendaciones).
+- **Dashboard HTML (13 secciones):** nuevas secciones 1 "El problema y los datos" y
+  2 "Preparación de los datos" (7/7 chequeos, 0 imputaciones, estrella 8 + 1, 0 FK); la
+  clasificación (9) y la **regresión (10)** quedan separadas: la regresión muestra R² test/CV,
+  RMSE, MAE, el R² del baseline, la gráfica real vs. predicho y los coeficientes más influyentes
+  con nombres en español. Nueva sección 12 "Conocimiento obtenido y recomendaciones"
+  (4 conclusiones con cifras vivas + 4 recomendaciones de §8.1). Q2 ahora tiene su lectura.
+- **Capturas:** `capturar_dashboard.py` genera 8 capturas, una por bloque narrativo
+  (`00_problema_preparacion` … `07_conocimiento_recomendaciones`); se retira
+  `04_modelos_segmentos.png`, que no cabía en una página del PDF.
+- **Informe:** §7 reorganizada según la secuencia del dashboard (capturas 1–8 del HTML y
+  9–12 de Power BI, §7.7); conclusión 6 actualizada; fecha 2026-11-20.
+- **PDF:** `docs/resultados/informe_final.pdf` (29 páginas), impreso con Chrome sin
+  ventana desde el HTML. `docs/resultados/estilo_impresion.html` limita las imágenes a 23 cm
+  y evita cortes de tablas. Comando de regeneración:
+  `pandoc informe_final.md -s --embed-resources --toc --toc-depth=2 -M lang=es -H estilo_impresion.html --metadata title="Informe final - Analisis de riesgo crediticio South German Credit" -o informe_final.html`
+  y luego `chrome --headless=new --no-pdf-header-footer --print-to-pdf=informe_final.pdf informe_final.html`
+  (desde `docs/resultados/`).
+
+### 2026-11-20 — Informe sin la etiqueta de borrador
+
+- `docs/resultados/informe_final_borrador.{md,html,pdf}` → **`informe_final.{md,html,pdf}`**
+  (`git mv`, conserva el historial). Versión "entrega final" y título del HTML/PDF sin
+  "(borrador)". Referencias actualizadas en el README, el Anexo C del informe y esta bitácora.

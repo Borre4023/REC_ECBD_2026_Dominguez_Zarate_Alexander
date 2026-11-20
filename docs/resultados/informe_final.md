@@ -4,7 +4,7 @@
 Universidad Tecnológica de Tula-Tepeji (UTTT)
 
 **Alumno:** Alexander Domínguez Zárate · **Matrícula:** 23301324
-**Versión:** borrador para entrega final · **Fecha:** 2026-11-16
+**Versión:** entrega final · **Fecha:** 2026-11-20
 
 ---
 
@@ -327,7 +327,9 @@ La respuesta a la pregunta 3 es **sí, con matices**: existen dos segmentos defe
 
 ## 7. Dashboard y storytelling
 
-El entregable de comunicación es un **dashboard HTML autocontenido** (`dashboard/index.html`, ≈ 377 KB): jinja2 + matplotlib con figuras en base64; se abre en cualquier navegador sin servidor ni internet. Se alimenta **en vivo** del Data Mart SQLite (KPIs y consultas Q1–Q5 re-ejecutadas en cada generación).
+El entregable de comunicación es un **dashboard HTML autocontenido** (`dashboard/index.html`, ≈ 497 KB): jinja2 + matplotlib con figuras en base64; se abre en cualquier navegador sin servidor ni internet. Se alimenta **en vivo** del Data Mart SQLite (KPIs y consultas Q1–Q5 re-ejecutadas en cada generación).
+
+Sus 13 secciones siguen la secuencia de storytelling **Problema → Datos → Preparación → Análisis → Patrones/Predicciones → Conocimiento → Recomendaciones**: el problema y los datos (1), la preparación (2), el análisis descriptivo del Data Mart (3–8), los modelos supervisados y no supervisados (9–11), el conocimiento con sus recomendaciones de decisión (12) y la reproducibilidad (13). Cada visualización va acompañada de una lectura que la conecta con la pregunta del proyecto.
 
 **Referencia de consulta completa** (estilo APA 7, recurso de software):
 
@@ -335,51 +337,71 @@ El entregable de comunicación es un **dashboard HTML autocontenido** (`dashboar
 
 *Nota.* Para consultarlo localmente: `py src/dashboard/generar_dashboard.py` y abrir `dashboard/index.html`. A continuación se presentan capturas de sus secciones.
 
-### 7.1 Panorama de la cartera
+### 7.1 Problema, datos y preparación
 
-![Captura 1](capturas/01_panorama.png)
+![Captura 1](capturas/00_problema_preparacion.png)
 
-**Captura 1.** KPIs de cartera: 1 000 créditos, 30.0 % malos, 3 271 248 DM de monto total, 3 271 DM de monto medio, plazo medio 20.9 meses y cuota aproximada de 167.7 DM/mes. Los tres chips indican la estructura narrativa del dashboard: ¿quién incumple?, ¿cuánta exposición?, ¿qué modelos lo capturan?
+**Captura 1.** Apertura del dashboard: problema de negocio con las tres preguntas (clasificación, regresión y no supervisado), descripción del dataset (1 000 créditos de 1973–1975, 30.0 % bad sobrerrepresentado) y preparación de los datos: ETL con 7/7 chequeos de calidad, sin imputaciones, Data Mart en estrella (8 dimensiones + hechos) y 0 violaciones de integridad.
 
-### 7.2 ¿Quién incumple? (Q1 y Q3)
+### 7.2 Panorama de la cartera
 
-![Captura 2](capturas/02_riesgo.png)
+![Captura 2](capturas/01_panorama.png)
 
-**Captura 2.** Consultas Q1 (historial) y Q3 (cuenta + ahorros). La tabla completa de combinaciones muestra el gradiente desde 52.1 % bad ("sin cuenta + sin ahorros") hasta 9.1 % ("cuenta ≥ 200 DM + ahorros ≥ 1000"), con la regla de negocio ×5.7 destacada.
+**Captura 2.** KPIs de cartera: 1 000 créditos, 30.0 % malos, 3 271 248 DM de monto total, 3 271 DM de monto medio, plazo medio 20.9 meses y cuota aproximada de 167.7 DM/mes. Los tres chips indican la estructura del análisis: ¿quién incumple?, ¿cuánta exposición?, ¿qué modelos lo capturan?
 
-### 7.3 ¿Cuánta exposición? (Q5, Q2 y Q4)
+### 7.3 ¿Quién incumple? (Q1 y Q3)
 
-![Captura 3](capturas/03_exposicion.png)
+![Captura 3](capturas/02_riesgo.png)
 
-**Captura 3.** Consultas Q5 (patrón no lineal del riesgo por rango de monto, hasta 54.3 % en ≥ 8 000 DM), Q2 (propósitos ordenados por monto: `business` 8 209 DM) y Q4 (top-10 de cuota mensual con resultado coloreado: 40 % bad).
+**Captura 3.** Consultas Q1 (historial) y Q3 (cuenta + ahorros). La tabla completa de combinaciones muestra el gradiente desde 52.1 % bad ("sin cuenta + sin ahorros") hasta 9.1 % ("cuenta ≥ 200 DM + ahorros ≥ 1000"), con la regla de negocio ×5.7 destacada.
 
-### 7.4 ¿Qué modelos lo capturan? (Unidades III y IV)
+### 7.4 ¿Cuánta exposición? (Q5, Q2 y Q4)
 
-![Captura 4](capturas/04_modelos_segmentos.png)
+![Captura 4](capturas/03_exposicion.png)
 
-**Captura 4.** Resultados de los modelos supervisados (AUC 0.835; accuracy 72.5 %; 77 % de bads detectados; 41 falsas alarmas; R² 0.596 con figuras ROC y matriz de confusión incrustadas) y de los segmentos no supervisados (tabla de exposición alta/baja, plano PCA y validación post-hoc del % bad).
+**Captura 4.** Consultas Q5 (patrón no lineal del riesgo por rango de monto, hasta 54.3 % en ≥ 8 000 DM), Q2 (propósitos ordenados por monto: `business` 8 209 DM, con su lectura) y Q4 (top-10 de cuota mensual con resultado coloreado: 40 % bad).
 
-### 7.5 Dashboard alternativo en Power BI
+### 7.5 Patrones y predicciones: modelos supervisados y no supervisados
+
+![Captura 5](capturas/04_clasificacion.png)
+
+**Captura 5.** Clasificación del riesgo: ROC-AUC 0.835, accuracy 72.5 % (frente al 70 % de predecir todo "good"), 77 % de los bad detectados y 41 falsas alarmas, con las curvas ROC de los candidatos y la matriz de confusión con el umbral 0.49.
+
+![Captura 6](capturas/05_regresion.png)
+
+**Captura 6.** Regresión del monto: R² 0.596 en test (0.55 en CV), RMSE 1 798 DM y MAE 1 139 DM, frente a un baseline de mediana con R² −0.121. La gráfica real vs. predicho muestra el buen ajuste en 2 000–6 000 DM y la subestimación de los créditos grandes; la tabla de coeficientes estandarizados la encabeza el plazo (+1 488 DM por σ).
+
+![Captura 7](capturas/06_segmentos.png)
+
+**Captura 7.** Segmentos no supervisados: perfil de los dos clústeres (exposición alta: 254 clientes, 6 895 DM, 36 meses, 43.7 % bad; exposición baja: 746, 2 037 DM, 16 meses, 25.3 %), su ubicación en el plano PCA y la validación post-hoc del % bad frente a la línea base del 30 %.
+
+### 7.6 Conocimiento y recomendaciones
+
+![Captura 8](capturas/07_conocimiento_recomendaciones.png)
+
+**Captura 8.** Cierre del dashboard: cuatro conclusiones sustentadas en los datos (historial y cuenta como señales más fuertes, riesgo no lineal por exposición, segmento solvente sobreexpuesto, riesgo predecible con AUC 0.835) y cuatro recomendaciones de decisión (control de exposición, semáforo cuenta + ahorros, umbral por costos y monitoreo), las mismas de la sección 8.1.
+
+### 7.7 Dashboard alternativo en Power BI
 
 La planeación consideraba Power BI, Tableau o Streamlit como herramienta de visualización. Además del dashboard HTML, que se regenera con un comando, se construyó una **versión en Power BI Desktop** (`powerbi/SouthGermanCredit.pbix`) con las mismas cuatro páginas. Así la misma historia se presenta en una herramienta de BI corporativo y se agregan elementos interactivos: filtros por visual, información al pasar el cursor y formato condicional.
 
 Los datos provienen del mismo Data Mart: `py src/dashboard/exportar_powerbi.py` exporta siete CSV a `powerbi/datos/` (la vista plana `dm_riesgo_crediticio` y los artefactos de los modelos). Los indicadores se calculan con medidas DAX (`% Bad`, `Monto Medio DM`, métricas de test) y las cifras se validaron contra el dashboard HTML con el checklist de `docs/resultados/guia_powerbi.md`.
 
-![Captura 5](capturas_powerbi/01_panorama.png)
+![Captura 9](capturas_powerbi/01_panorama.png)
 
-**Captura 5.** Power BI, página 1: los mismos KPIs del panorama (1 000 créditos, 30.0 % bad, 3 271 248 DM) con la distribución good/bad y el número de créditos por rango de monto.
+**Captura 9.** Power BI, página 1: los mismos KPIs del panorama (1 000 créditos, 30.0 % bad, 3 271 248 DM) con la distribución good/bad y el número de créditos por rango de monto.
 
-![Captura 6](capturas_powerbi/02_riesgo.png)
+![Captura 10](capturas_powerbi/02_riesgo.png)
 
-**Captura 6.** Power BI, página 2: % bad por historial (62.5 % → 17.1 %) y matriz cuenta × ahorros con escala de color. La matriz completa muestra también las combinaciones sin ningún bad (0.0 %) y los totales por fila y columna. Las tarjetas de contraste reproducen la regla ×5.7 (52.1 % vs 9.1 %).
+**Captura 10.** Power BI, página 2: % bad por historial (62.5 % → 17.1 %) y matriz cuenta × ahorros con escala de color. La matriz completa muestra también las combinaciones sin ningún bad (0.0 %) y los totales por fila y columna. Las tarjetas de contraste reproducen la regla ×5.7 (52.1 % vs 9.1 %).
 
-![Captura 7](capturas_powerbi/03_exposicion.png)
+![Captura 11](capturas_powerbi/03_exposicion.png)
 
-**Captura 7.** Power BI, página 3: gráfico combinado de créditos (columnas) y % bad (línea) por rango de monto. Muestra en una sola vista que el rango ≥ 8 000 DM tiene pocos créditos (70) pero el mayor riesgo (54.3 %). También incluye el monto medio por propósito y el top-10 de cuotas con los bad en rojo (4 de 10).
+**Captura 11.** Power BI, página 3: gráfico combinado de créditos (columnas) y % bad (línea) por rango de monto. Muestra en una sola vista que el rango ≥ 8 000 DM tiene pocos créditos (70) pero el mayor riesgo (54.3 %). También incluye el monto medio por propósito y el top-10 de cuotas con los bad en rojo (4 de 10).
 
-![Captura 8](capturas_powerbi/04_modelos_segmentos.png)
+![Captura 12](capturas_powerbi/04_modelos_segmentos.png)
 
-**Captura 8.** Power BI, página 4: tarjetas de las tres propuestas de modelado (ROC-AUC 0.835, accuracy 72.5 %, recall 76.7 % y R² 0.596), matriz de confusión (46/14/41/99), % bad por segmento (254 clientes con 43.7 % vs 746 con 25.3 %), mapa PCA con los 1 000 créditos coloreados por clúster y silhouette por k (máximo 0.131 en k = 2).
+**Captura 12.** Power BI, página 4: tarjetas de las tres propuestas de modelado (ROC-AUC 0.835, accuracy 72.5 %, recall 76.7 % y R² 0.596), matriz de confusión (46/14/41/99), % bad por segmento (254 clientes con 43.7 % vs 746 con 25.3 %), mapa PCA con los 1 000 créditos coloreados por clúster y silhouette por k (máximo 0.131 en k = 2).
 
 ---
 
@@ -424,7 +446,7 @@ Por objetivo específico:
 3. **Data Warehouse/Data Mart:** el diseño estrella se implementó y validó en SQLite (8 dimensiones, 1 000 hechos, 0 violaciones FK) con cinco consultas de negocio; el dashboard se alimenta de él.
 4. **Modelado supervisado:** la clasificación del riesgo alcanzó **ROC-AUC 0.835 en prueba** (logística balanceada) detectando el 77 % de los malos; la regresión del monto explica el 60 % de su varianza y reveló el límite predictivo en los extremos.
 5. **Modelado no supervisado:** PCA evidenció que la primera dimensión estructural es la **exposición**; K-means produjo dos segmentos que, sin ver la respuesta, discriminan el riesgo real (43.7 % vs. 25.3 %).
-6. **Comunicación:** un dashboard autocontenido alimenta la narrativa de las tres preguntas de negocio con datos vivos del Data Mart.
+6. **Comunicación:** un dashboard autocontenido, alimentado con datos vivos del Data Mart, recorre la secuencia problema → datos → preparación → análisis → predicciones → conocimiento → recomendaciones; una versión en Power BI presenta la misma historia con interactividad.
 
 **Aporte central:** la triangulación entre SQL descriptivo, aprendizaje supervisado y no supervisado —sobre un pipeline con calidad garantizada— convierte una tabla de créditos de los años 70 en una política de negocio defendible: *vigilar la exposición, no el perfil superficial*.
 
@@ -509,7 +531,7 @@ Versión didáctica paso a paso: notebooks `01`–`05` en `notebooks/` (ejecutad
 | Dashboard | `dashboard/index.html` + `src/dashboard/` |
 | Dashboard alternativo (Power BI) | `powerbi/SouthGermanCredit.pbix`, `powerbi/datos/`, `docs/resultados/guia_powerbi.md` |
 | Bitácora | `docs/Informe de cambios (actualiza esta cosa cada cambio).md` |
-| Informe final | `docs/resultados/informe_final_borrador.md` (+ `.html`) |
+| Informe final | `docs/resultados/informe_final.pdf` (+ `.md` fuente y `.html`) |
 
 ### Anexo D. Métricas finales consolidadas
 

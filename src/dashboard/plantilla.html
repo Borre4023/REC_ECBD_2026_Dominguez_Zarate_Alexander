@@ -60,7 +60,40 @@
 <main>
 
 <section>
-  <h2>1 · Panorama general de la cartera</h2>
+  <h2>1 · El problema y los datos</h2>
+  <p class="sub">¿Qué patrones del perfil financiero y crediticio explican que un crédito resulte <b>bad</b>?</p>
+  <div class="dos-col">
+    <div class="lectura"><b>Problema de negocio.</b> Un banco necesita anticipar qué créditos no se
+      pagarán y cuánta exposición asume. El proyecto responde tres preguntas:
+      <span class="chip">clasificación: ¿good o bad?</span>
+      <span class="chip">regresión: ¿cuánto monto?</span>
+      <span class="chip">no supervisado: ¿qué perfiles hay?</span></div>
+    <div class="lectura"><b>Datos.</b> South German Credit (UCI, id 573): {{ kpis.n_creditos }} créditos de
+      1973–1975 con 21 variables financieras, crediticias, laborales y personales. Objetivo
+      <code>credit_risk</code> con {{ kpis.pct_bad }}% bad (los malos están <i>sobrerrepresentados</i>
+      en la muestra, así que no es una tasa real de incumplimiento).</div>
+  </div>
+</section>
+
+<section>
+  <h2>2 · Preparación de los datos</h2>
+  <p class="sub">raw → ETL → processed → Data Mart → modelos y dashboard</p>
+  <div class="kpis">
+    <div class="kpi"><div class="num">7/7</div><div class="lbl">chequeos de calidad del ETL OK</div></div>
+    <div class="kpi"><div class="num">0</div><div class="lbl">valores imputados (sin faltantes)</div></div>
+    <div class="kpi"><div class="num">8 + 1</div><div class="lbl">dimensiones + tabla de hechos (estrella)</div></div>
+    <div class="kpi"><div class="num">0</div><div class="lbl">violaciones de integridad (FK)</div></div>
+  </div>
+  <div class="lectura">El ETL decodifica los 21 campos con la tabla de códigos oficial, agrega la
+    variable derivada <code>cuota_aprox_mensual</code> (monto / plazo) y valida un contrato de 7
+    chequeos que detendría el pipeline ante códigos nuevos. El resultado se carga en un
+    <b>Data Mart SQLite en estrella</b> (<code>fact_credito</code> + 8 dimensiones), del que salen
+    las consultas Q1–Q5 de este dashboard. Para los modelos se usa one-hot en las categóricas,
+    estandarización de las numéricas y un split estratificado 80/20 con <code>random_state=42</code>.</div>
+</section>
+
+<section>
+  <h2>3 · Panorama general de la cartera</h2>
   <p class="sub">Fuente: <code>fact_credito</code> / vista <code>dm_riesgo_crediticio</code> (1 000 créditos, 1973–1975)</p>
   <div class="kpis">
     <div class="kpi"><div class="num">{{ kpis.n_creditos }}</div><div class="lbl">créditos</div></div>
@@ -77,7 +110,7 @@
 </section>
 
 <section>
-  <h2>2 · <span class="q">Q1</span> ¿Qué historial crediticio concentra el riesgo?</h2>
+  <h2>4 · <span class="q">Q1</span> ¿Qué historial crediticio concentra el riesgo?</h2>
   <p class="sub">Tasa de incumplimiento por categoría de <code>moral</code> (Data Mart)</p>
   {{ tabla_q1 }}
   <div class="lectura"><b>Gradiente monotónico:</b> del {{ q1.peor.pct_bad }}% bad con historial de
@@ -87,7 +120,7 @@
 </section>
 
 <section>
-  <h2>3 · <span class="q">Q3</span> ¿Cómo cambia el riesgo por situación de cuenta y ahorros?</h2>
+  <h2>5 · <span class="q">Q3</span> ¿Cómo cambia el riesgo por situación de cuenta y ahorros?</h2>
   <p class="sub">Combinaciones con ≥ 10 créditos, ordenadas por % bad</p>
   <div class="dos-col">
     <div>{{ tabla_q3 }}</div>
@@ -102,7 +135,7 @@
 </section>
 
 <section>
-  <h2>4 · <span class="q">Q5</span> ¿El riesgo escala con el monto?</h2>
+  <h2>6 · <span class="q">Q5</span> ¿El riesgo escala con el monto?</h2>
   <p class="sub">Segmentación por rango de monto solicitado</p>
   {{ tabla_q5 }}
   <div class="lectura"><b>Patrón no lineal:</b> el riesgo baja primero ({{ q5.minimo.pct_bad }}% en
@@ -111,13 +144,16 @@
 </section>
 
 <section>
-  <h2>5 · <span class="q">Q2</span> ¿En qué propósitos se pide más dinero?</h2>
+  <h2>7 · <span class="q">Q2</span> ¿En qué propósitos se pide más dinero?</h2>
   <p class="sub">Monto y cuota promedio por propósito (top 6 por monto)</p>
   {{ tabla_q2 }}
+  <div class="lectura"><b>La exposición depende del propósito:</b> negocio y auto nuevo piden los
+    montos más altos. Son los mismos propósitos que pesan en la regresión del monto (sección 10)
+    y que caracterizan al segmento de exposición alta del clustering (sección 11).</div>
 </section>
 
 <section>
-  <h2>6 · <span class="q">Q4</span> Créditos de mayor exposición mensual (top 10)</h2>
+  <h2>8 · <span class="q">Q4</span> Créditos de mayor exposición mensual (top 10)</h2>
   <p class="sub">Ordenados por cuota aproximada = monto / plazo (recalculada en SQL)</p>
   {{ tabla_q4 }}
   <div class="nota">{{ q4.pct_bad_top }}% del top-10 resultó <b>bad</b> (base {{ kpis.pct_bad }}%):
@@ -126,14 +162,13 @@
 </section>
 
 <section>
-  <h2>7 · Modelos supervisados (Unidad III)</h2>
+  <h2>9 · Clasificación del riesgo (Unidad III)</h2>
   <p class="sub">sklearn · split 80/20 · CV 5-fold · detalles en <code>docs/modelos/evaluacion_modelos.md</code></p>
   <div class="kpis">
     <div class="kpi"><div class="num">{{ modelos.auc }}</div><div class="lbl">ROC-AUC test (clasificación)</div></div>
     <div class="kpi"><div class="num">{{ modelos.accuracy }}%</div><div class="lbl">accuracy (no principal: base 70 %)</div></div>
     <div class="kpi"><div class="num">{{ modelos.recall_bad }}%</div><div class="lbl">bad detectados (46/60)</div></div>
     <div class="kpi rojo"><div class="num">{{ modelos.fp }}</div><div class="lbl">falsas alarmas (good marcados)</div></div>
-    <div class="kpi"><div class="num">{{ modelos.r2 }}</div><div class="lbl">R² test (regresión del monto)</div></div>
   </div>
   <div class="dos-col">
     <figure><img src="data:image/png;base64,{{ fig_roc }}" alt="Curvas ROC">
@@ -143,12 +178,35 @@
   </div>
   <div class="lectura">Una <b>regresión logística regularizada y balanceada</b> detecta el
     <b>{{ modelos.recall_bad }}%</b> de los morosos a cambio de marcar el 29 % de los buenos para
-    revisión. En la regresión del monto, el plazo y la estructura de cuota explican el 60 % de la
-    varianza; los créditos &gt; 8000 DM quedan subestimados (tratar con reglas aparte).</div>
+    revisión. Supera con holgura al azar (AUC 0.5) y al baseline de "todos good" (accuracy 70 %
+    sin detectar ningún bad).</div>
 </section>
 
 <section>
-  <h2>8 · Segmentos no supervisados (Unidad IV)</h2>
+  <h2>10 · Regresión del monto solicitado (Unidad III)</h2>
+  <p class="sub">RidgeCV (α = {{ modelos.alpha }}) · el mejor de 4 candidatos en CV 5-fold · objetivo <code>amount</code></p>
+  <div class="kpis">
+    <div class="kpi"><div class="num">{{ modelos.r2 }}</div><div class="lbl">R² test (CV: {{ modelos.r2_cv }})</div></div>
+    <div class="kpi"><div class="num">{{ modelos.rmse }}</div><div class="lbl">RMSE test (DM)</div></div>
+    <div class="kpi"><div class="num">{{ modelos.mae }}</div><div class="lbl">MAE test (DM)</div></div>
+    <div class="kpi rojo"><div class="num">{{ modelos.r2_baseline }}</div><div class="lbl">R² del baseline (mediana, CV)</div></div>
+  </div>
+  <div class="dos-col">
+    <figure><img src="data:image/png;base64,{{ fig_reg }}" alt="Monto real vs predicho">
+      <figcaption>Monto real vs. predicho en test: sigue la diagonal en 2 000–6 000 DM y subestima los créditos grandes.</figcaption></figure>
+    <div>{{ tabla_coef }}
+      <div class="lectura">El <b>plazo</b> es el mayor determinante del monto (+{{ modelos.coef_plazo }} DM
+        por desviación estándar), seguido de la tasa de cuota sobre el ingreso y del propósito
+        (<code>business</code>, auto nuevo).</div></div>
+  </div>
+  <div class="lectura">El modelo explica el <b>{{ modelos.r2_pct }}%</b> de la variación del monto con un
+    error medio de {{ modelos.mae }} DM: sirve para <b>presupuestar exposición por rangos</b>, no para
+    fijar montos individuales. Los créditos &gt; 8 000 DM quedan subestimados, justo el rango de
+    mayor riesgo (Q5), por lo que conviene tratarlos con reglas aparte.</div>
+</section>
+
+<section>
+  <h2>11 · Segmentos no supervisados: clústeres y PCA (Unidad IV)</h2>
   <p class="sub">K-means sin ver la respuesta · PCA como mapa 2D · detalles en <code>docs/modelos/clustering_pca.md</code></p>
   <div class="dos-col">
     <div>{{ tabla_clusters }}</div>
@@ -165,8 +223,45 @@
 </section>
 
 <section>
-  <h2>9 · Pipeline y reproducibilidad</h2>
-  <p class="sub">Todo el flujo es reproducible desde la raíz del repositorio</p>
+  <h2>12 · Conocimiento obtenido y recomendaciones</h2>
+  <p class="sub">Lo que dicen juntos el Data Mart, los modelos supervisados y el clustering</p>
+  <div class="dos-col">
+    <div>
+      <div class="lectura"><b>Conclusiones</b></div>
+      <ol class="lectura">
+        <li><b>El historial y la cuenta son las señales más fuertes:</b> {{ q1.peor.pct_bad }}% bad con
+          atraso previo vs {{ q1.mejor.pct_bad }}% con historial limpio; las mismas variables encabezan el
+          clasificador.</li>
+        <li><b>La exposición escala el riesgo de forma no lineal:</b> {{ q5.maximo.pct_bad }}% bad en
+          créditos ≥ 8 000 DM, el rango que la regresión subestima.</li>
+        <li><b>El segmento riesgoso es el cliente solvente sobreexpuesto:</b> K-means, sin ver la
+          respuesta, aísla un segmento de exposición alta con {{ clu0.pct_bad }}% bad
+          (vs {{ clu1.pct_bad }}%).</li>
+        <li><b>El riesgo es predecible:</b> ROC-AUC {{ modelos.auc }}, detectando el
+          {{ modelos.recall_bad }}% de los bad.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="lectura"><b>Recomendaciones de decisión</b></div>
+      <ol class="lectura">
+        <li><b>Controlar la exposición, no solo el perfil:</b> revisión reforzada y garantías para
+          créditos ≥ 8 000 DM o plazos ≥ 36 meses.</li>
+        <li><b>Cuenta y ahorros como semáforo:</b> exigir aval o ajustar el precio a "sin cuenta +
+          ahorros desconocidos" ({{ q3.peor.pct_bad }}% bad) y dar flujo ágil a "cuenta ≥ 200 +
+          ahorros ≥ 1000" ({{ q3.mejor.pct_bad }}%).</li>
+        <li><b>Fijar el umbral con costos reales:</b> hoy se marca el 29 % de los good para detectar el
+          {{ modelos.recall_bad }}% de los bad; recalibrar con el costo de un incobrable frente al de
+          una revisión manual.</li>
+        <li><b>Monitorear y reentrenar</b> antes de cualquier uso real (validación out-of-time y
+          deriva de variables de época).</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>13 · Reproducibilidad y limitaciones</h2>
+  <p class="sub">Todo el flujo es reproducible desde la raíz del repositorio · versión alternativa en Power BI: <code>powerbi/SouthGermanCredit.pbix</code></p>
   <div class="lectura">
     <span class="chip">1. ETL: <code>py src/etl/etl_south_german_credit.py</code> (7/7 chequeos OK)</span>
     <span class="chip">2. DW/DM: <code>py src/etl/build_dw_sqlite.py</code> (0 violaciones FK)</span>

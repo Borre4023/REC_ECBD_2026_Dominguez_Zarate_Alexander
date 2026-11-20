@@ -168,7 +168,30 @@ def main():
         'recall_bad': round(100 * cm[0][0] / (cm[0][0] + cm[0][1])),
         'fp': cm[1][0],
         'r2': round(m_reg['metricas_test']['r2_test'], 3),
+        'r2_pct': round(100 * m_reg['metricas_test']['r2_test']),
+        'rmse': f"{m_reg['metricas_test']['rmse_test']:,.0f}".replace(',', ' '),
+        'mae': f"{m_reg['metricas_test']['mae_test']:,.0f}".replace(',', ' '),
+        'alpha': round(m_reg['alpha_seleccionado'], 2),
     }
+    cv_reg = {f['modelo']: f for f in m_reg['comparacion_cv']}
+    modelos['r2_cv'] = round(cv_reg[m_reg['mejor_modelo']]['r2_cv'], 3)
+    modelos['r2_baseline'] = round(cv_reg['baseline_mediana']['r2_cv'], 3)
+
+    # ---- Regresión: coeficientes más influyentes (estandarizados) ----
+    coefs = pd.DataFrame(m_reg['top10_coeficientes']).head(6)
+    modelos['coef_plazo'] = f"{coefs.loc[coefs['feature'] == 'num__laufzeit', 'coef'].iloc[0]:,.0f}".replace(',', ' ')
+    nombres_es = {'laufzeit': 'plazo (meses)', 'rate': 'tasa de cuota', 'beruf': 'empleo',
+                  'verw': 'propósito', 'moral': 'historial', 'sparkont': 'ahorros',
+                  'famges': 'estado civil/sexo', 'laufkont': 'cuenta corriente'}
+    base = coefs['feature'].str.replace(r'^(num|cat)__', '', regex=True)
+    partes = base.str.split('_cat_', n=1, expand=True)
+    coefs['variable'] = partes[0].map(lambda v: nombres_es.get(v, v))
+    if partes.shape[1] > 1:
+        coefs['variable'] = coefs['variable'] + partes[1].map(
+            lambda c: f' = {c}' if isinstance(c, str) else '')
+    tabla_coef = df_a_html(
+        coefs[['variable', 'coef']].rename(columns={'coef': 'efecto (DM por σ)'}),
+        {'efecto (DM por σ)': lambda v: f'{v:+,.0f}'.replace(',', ' ')})
 
     # ---- Clustering (metricas.json real) ----
     with open(os.path.join(BASE_DIR, 'modelos', 'clustering', 'metricas.json'),
@@ -198,6 +221,7 @@ def main():
     fig_matriz = figura_base64('matriz_confusion.png')
     fig_clusters = figura_base64('pca_clusters.png')
     fig_perfil_bad = figura_base64('clu_perfil_bad.png')
+    fig_reg = figura_base64('reg_pred_vs_real.png')
 
     with open(PLANTILLA, encoding='utf-8') as f:
         html = Template(f.read()).render(
@@ -207,7 +231,8 @@ def main():
             modelos=modelos, tabla_clusters=tabla_clusters,
             clu0=clu0, clu1=clu1,
             fig_roc=fig_roc, fig_matriz=fig_matriz,
-            fig_clusters=fig_clusters, fig_perfil_bad=fig_perfil_bad)
+            fig_clusters=fig_clusters, fig_perfil_bad=fig_perfil_bad,
+            fig_reg=fig_reg, tabla_coef=tabla_coef)
 
     os.makedirs(os.path.dirname(SALIDA), exist_ok=True)
     with open(SALIDA, 'w', encoding='utf-8') as f:

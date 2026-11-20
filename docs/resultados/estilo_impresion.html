@@ -1,0 +1,12 @@
+<style>
+  /* Reglas solo para imprimir/exportar a PDF: ninguna figura sale de la página */
+  @media print {
+    body { max-width: none; padding: 0 1.2cm; font-size: 11pt; }
+    img { max-width: 100%; max-height: 23cm; width: auto; height: auto;
+          display: block; margin: 0 auto; page-break-inside: avoid; }
+    h1, h2, h3 { page-break-after: avoid; }
+    table, pre, blockquote { page-break-inside: avoid; }
+    nav#TOC { page-break-after: always; }
+  }
+  @page { size: letter; margin: 2cm 1.5cm; }
+</style>

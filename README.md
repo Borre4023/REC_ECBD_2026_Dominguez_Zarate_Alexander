@@ -67,9 +67,9 @@ El proyecto se desarrolla como un ejercicio de **KDD** que incluye análisis exp
 - [x] **Unidad III — modelos supervisados con sklearn** (`src/models/entrenar_regresion.py`, `entrenar_clasificacion.py`): regresión del monto R² test 0.596 (RidgeCV); clasificación del riesgo ROC-AUC test 0.835 (logística balanceada), recall de bads 76.7%; evaluación en `docs/modelos/evaluacion_modelos.md`; notebooks 03–04 didácticos ejecutados sin errores
 - [x] **Informe de exploración técnica (Unidad II)** con 10 secciones, diagnóstico de calidad y visualizaciones (`docs/analisis/exploracion_tecnica.md` + versión HTML autocontenida `exploracion_tecnica.html`); gráficas en `docs/analisis/figuras/` (reproducibles con `py src/preprocessing/exploracion_tecnica.py`)
 - [x] **Unidad IV — clustering y PCA** (`src/models/clustering_pca.py`, `notebooks/05_clustering_pca.ipynb`): PCA (PC1 = eje exposición, 23 CP para 80% de varianza) y K-means k=2 con validación post-hoc (segmento de exposición alta: 43.7% bad); evaluación en `docs/modelos/clustering_pca.md`
-- [x] **Dashboard HTML autocontenido** (`dashboard/index.html`): KPIs + consultas Q1–Q5 del Data Mart + resultados de modelos y segmentos; figuras en base64, generado con `py src/dashboard/generar_dashboard.py`
-- [x] **Cierre (Fase 6):** diagrama del esquema estrella (`docs/analisis/figuras/diagrama_dw.png`), 4 capturas del dashboard (`docs/resultados/capturas/`) e informe final borrador APA 7 (`docs/resultados/informe_final_borrador.md` + `.html`)
-- [x] **Dashboard alternativo en Power BI** (`powerbi/SouthGermanCredit.pbix`): 4 páginas con las mismas cifras del dashboard HTML, alimentadas por los CSV que exporta `py src/dashboard/exportar_powerbi.py`; guía en `docs/resultados/guia_powerbi.md`, capturas en `docs/resultados/capturas_powerbi/` e integración en la §7.5 del informe final
+- [x] **Dashboard HTML autocontenido** (`dashboard/index.html`): 13 secciones en secuencia de storytelling (problema → datos → preparación → análisis Q1–Q5 → clasificación, regresión y segmentos → conocimiento y recomendaciones); figuras en base64, generado con `py src/dashboard/generar_dashboard.py`
+- [x] **Cierre (Fase 6):** diagrama del esquema estrella (`docs/analisis/figuras/diagrama_dw.png`), 8 capturas del dashboard (`docs/resultados/capturas/`) e informe final APA 7 (`docs/resultados/informe_final.pdf`, con fuente `.md` y versión `.html`)
+- [x] **Dashboard alternativo en Power BI** (`powerbi/SouthGermanCredit.pbix`): 4 páginas con las mismas cifras del dashboard HTML, alimentadas por los CSV que exporta `py src/dashboard/exportar_powerbi.py`; guía en `docs/resultados/guia_powerbi.md`, capturas en `docs/resultados/capturas_powerbi/` e integración en la §7.7 del informe final
 
 ## Metodología
 
@@ -194,7 +194,7 @@ para reproducibilidad completa.
 | Implementación del Data Mart (SQLite) | `docs/analisis/dw_datamart_implementacion.md` |
 | Evaluación de modelos (Unidad III) | `docs/modelos/evaluacion_modelos.md` |
 | Clustering y PCA (Unidad IV) | `docs/modelos/clustering_pca.md` |
-| **Informe final (borrador, APA 7)** | `docs/resultados/informe_final_borrador.md` (+ `.html` autocontenida) |
+| **Informe final (APA 7)** | `docs/resultados/informe_final.pdf` (+ `.md` fuente y `.html` autocontenida) |
 | **Capturas del dashboard** | `docs/resultados/capturas/` (HTML) · `docs/resultados/capturas_powerbi/` (Power BI) |
 | Guía del dashboard en Power BI | `docs/resultados/guia_powerbi.md` (+ `powerbi/README.md`) |
 | Diagrama del Data Mart | `docs/analisis/figuras/diagrama_dw.png` (generable con `py src/etl/diagrama_dw.py`) |

@@ -10,10 +10,14 @@ recorta. Sin dependencias nuevas (no requiere Playwright/Selenium).
 Uso:
     py src/dashboard/capturar_dashboard.py
 Salidas:
+    docs/resultados/capturas/00_problema_preparacion.png
     docs/resultados/capturas/01_panorama.png
     docs/resultados/capturas/02_riesgo.png
     docs/resultados/capturas/03_exposicion.png
-    docs/resultados/capturas/04_modelos_segmentos.png
+    docs/resultados/capturas/04_clasificacion.png
+    docs/resultados/capturas/05_regresion.png
+    docs/resultados/capturas/06_segmentos.png
+    docs/resultados/capturas/07_conocimiento_recomendaciones.png
 """
 import os
 import shutil
@@ -28,10 +32,14 @@ SALIDA_DIR = os.path.join(BASE_DIR, 'docs', 'resultados', 'capturas')
 
 # (nombre de salida, índices de <section> visibles 1-based, alto de ventana)
 CAPTURAS = [
-    ('01_panorama.png', [1], 780),
-    ('02_riesgo.png', [2, 3], 1500),
-    ('03_exposicion.png', [4, 5, 6], 1600),
-    ('04_modelos_segmentos.png', [7, 8], 2100),
+    ('00_problema_preparacion.png', [1, 2], 1100),
+    ('01_panorama.png', [3], 780),
+    ('02_riesgo.png', [4, 5], 1500),
+    ('03_exposicion.png', [6, 7, 8], 1800),
+    ('04_clasificacion.png', [9], 1300),
+    ('05_regresion.png', [10], 1300),
+    ('06_segmentos.png', [11], 1900),
+    ('07_conocimiento_recomendaciones.png', [12], 1100),
 ]
 
 NAVEGADORES = [
