@@ -359,6 +359,28 @@ El entregable de comunicación es un **dashboard HTML autocontenido** (`dashboar
 
 **Captura 4.** Resultados de los modelos supervisados (AUC 0.835; accuracy 72.5 %; 77 % de bads detectados; 41 falsas alarmas; R² 0.596 con figuras ROC y matriz de confusión incrustadas) y de los segmentos no supervisados (tabla de exposición alta/baja, plano PCA y validación post-hoc del % bad).
 
+### 7.5 Dashboard alternativo en Power BI
+
+La planeación consideraba Power BI, Tableau o Streamlit como herramienta de visualización. Además del dashboard HTML, que se regenera con un comando, se construyó una **versión en Power BI Desktop** (`powerbi/SouthGermanCredit.pbix`) con las mismas cuatro páginas. Así la misma historia se presenta en una herramienta de BI corporativo y se agregan elementos interactivos: filtros por visual, información al pasar el cursor y formato condicional.
+
+Los datos provienen del mismo Data Mart: `py src/dashboard/exportar_powerbi.py` exporta siete CSV a `powerbi/datos/` (la vista plana `dm_riesgo_crediticio` y los artefactos de los modelos). Los indicadores se calculan con medidas DAX (`% Bad`, `Monto Medio DM`, métricas de test) y las cifras se validaron contra el dashboard HTML con el checklist de `docs/resultados/guia_powerbi.md`.
+
+![Captura 5](capturas_powerbi/01_panorama.png)
+
+**Captura 5.** Power BI, página 1: los mismos KPIs del panorama (1 000 créditos, 30.0 % bad, 3 271 248 DM) con la distribución good/bad y el número de créditos por rango de monto.
+
+![Captura 6](capturas_powerbi/02_riesgo.png)
+
+**Captura 6.** Power BI, página 2: % bad por historial (62.5 % → 17.1 %) y matriz cuenta × ahorros con escala de color. La matriz completa muestra también las combinaciones sin ningún bad (0.0 %) y los totales por fila y columna. Las tarjetas de contraste reproducen la regla ×5.7 (52.1 % vs 9.1 %).
+
+![Captura 7](capturas_powerbi/03_exposicion.png)
+
+**Captura 7.** Power BI, página 3: gráfico combinado de créditos (columnas) y % bad (línea) por rango de monto. Muestra en una sola vista que el rango ≥ 8 000 DM tiene pocos créditos (70) pero el mayor riesgo (54.3 %). También incluye el monto medio por propósito y el top-10 de cuotas con los bad en rojo (4 de 10).
+
+![Captura 8](capturas_powerbi/04_modelos_segmentos.png)
+
+**Captura 8.** Power BI, página 4: tarjetas de las tres propuestas de modelado (ROC-AUC 0.835, accuracy 72.5 %, recall 76.7 % y R² 0.596), matriz de confusión (46/14/41/99), % bad por segmento (254 clientes con 43.7 % vs 746 con 25.3 %), mapa PCA con los 1 000 créditos coloreados por clúster y silhouette por k (máximo 0.131 en k = 2).
+
 ---
 
 ## 8. Discusión integrada
@@ -454,6 +476,8 @@ py src/models/clustering_pca.py
 py src/etl/diagrama_dw.py
 # 6) Dashboard autocontenido
 py src/dashboard/generar_dashboard.py
+# 7) Datos para el dashboard en Power BI (powerbi/datos/*.csv)
+py src/dashboard/exportar_powerbi.py
 ```
 
 Versión didáctica paso a paso: notebooks `01`–`05` en `notebooks/` (ejecutados secuencialmente, 0 errores).
@@ -468,6 +492,7 @@ Versión didáctica paso a paso: notebooks `01`–`05` en `notebooks/` (ejecutad
 ├── sql/             schema_dw.sql (PostgreSQL) · schema_dw_sqlite.sql · queries_dm.sql
 ├── modelos/         regresion/ · clasificacion/ · clustering/ (.pkl + metricas.json)
 ├── dashboard/       index.html (autocontenido)
+├── powerbi/         SouthGermanCredit.pbix · datos/ (CSV exportados del Data Mart)
 └── docs/            planeacion/ · diccionario_datos/ · analisis/ · modelos/ · resultados/
 ```
 
@@ -482,6 +507,7 @@ Versión didáctica paso a paso: notebooks `01`–`05` en `notebooks/` (ejecutad
 | Modelos (U3) | `src/models/entrenar_regresion.py`, `entrenar_clasificacion.py`, `docs/modelos/evaluacion_modelos.md` |
 | No supervisado (U4) | `src/models/clustering_pca.py`, `docs/modelos/clustering_pca.md` |
 | Dashboard | `dashboard/index.html` + `src/dashboard/` |
+| Dashboard alternativo (Power BI) | `powerbi/SouthGermanCredit.pbix`, `powerbi/datos/`, `docs/resultados/guia_powerbi.md` |
 | Bitácora | `docs/Informe de cambios (actualiza esta cosa cada cambio).md` |
 | Informe final | `docs/resultados/informe_final_borrador.md` (+ `.html`) |
 

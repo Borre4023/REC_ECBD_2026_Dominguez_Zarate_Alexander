@@ -69,7 +69,7 @@ El proyecto se desarrolla como un ejercicio de **KDD** que incluye análisis exp
 - [x] **Unidad IV — clustering y PCA** (`src/models/clustering_pca.py`, `notebooks/05_clustering_pca.ipynb`): PCA (PC1 = eje exposición, 23 CP para 80% de varianza) y K-means k=2 con validación post-hoc (segmento de exposición alta: 43.7% bad); evaluación en `docs/modelos/clustering_pca.md`
 - [x] **Dashboard HTML autocontenido** (`dashboard/index.html`): KPIs + consultas Q1–Q5 del Data Mart + resultados de modelos y segmentos; figuras en base64, generado con `py src/dashboard/generar_dashboard.py`
 - [x] **Cierre (Fase 6):** diagrama del esquema estrella (`docs/analisis/figuras/diagrama_dw.png`), 4 capturas del dashboard (`docs/resultados/capturas/`) e informe final borrador APA 7 (`docs/resultados/informe_final_borrador.md` + `.html`)
-- [ ] **Dashboard alternativo en Power BI** (`powerbi/`): CSV exportados del Data Mart y de los modelos con `py src/dashboard/exportar_powerbi.py` y guía de construcción (`docs/resultados/guia_powerbi.md`); falta construir `powerbi/SouthGermanCredit.pbix`
+- [x] **Dashboard alternativo en Power BI** (`powerbi/SouthGermanCredit.pbix`): 4 páginas con las mismas cifras del dashboard HTML, alimentadas por los CSV que exporta `py src/dashboard/exportar_powerbi.py`; guía en `docs/resultados/guia_powerbi.md`, capturas en `docs/resultados/capturas_powerbi/` e integración en la §7.5 del informe final
 
 ## Metodología
 
@@ -195,12 +195,12 @@ para reproducibilidad completa.
 | Evaluación de modelos (Unidad III) | `docs/modelos/evaluacion_modelos.md` |
 | Clustering y PCA (Unidad IV) | `docs/modelos/clustering_pca.md` |
 | **Informe final (borrador, APA 7)** | `docs/resultados/informe_final_borrador.md` (+ `.html` autocontenida) |
-| **Capturas del dashboard** | `docs/resultados/capturas/` |
+| **Capturas del dashboard** | `docs/resultados/capturas/` (HTML) · `docs/resultados/capturas_powerbi/` (Power BI) |
 | Guía del dashboard en Power BI | `docs/resultados/guia_powerbi.md` (+ `powerbi/README.md`) |
 | Diagrama del Data Mart | `docs/analisis/figuras/diagrama_dw.png` (generable con `py src/etl/diagrama_dw.py`) |
 | Separación de datos y regeneración | `data/README.md` |
 | Bitácora de cambios | `docs/Informe de cambios (actualiza esta cosa cada cambio).md` |
-| Dashboard | `dashboard/index.html` |
+| Dashboard | `dashboard/index.html` · alternativo en Power BI: `powerbi/SouthGermanCredit.pbix` |
 
 ## Hallazgos principales
 

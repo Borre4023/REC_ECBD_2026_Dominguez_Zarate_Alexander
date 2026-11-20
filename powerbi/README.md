@@ -9,7 +9,7 @@ reproducible con un comando; este `.pbix` muestra la misma historia en Power BI 
 | Ruta | Descripción |
 |---|---|
 | `datos/*.csv` | Datos exportados del Data Mart SQLite y de los artefactos de modelos (regenerables) |
-| `SouthGermanCredit.pbix` | Dashboard con las 4 páginas (lo construye el alumno en Power BI Desktop) |
+| `SouthGermanCredit.pbix` | Dashboard con las 4 páginas (capturas en `docs/resultados/capturas_powerbi/`) |
 
 ## Regenerar los datos
 

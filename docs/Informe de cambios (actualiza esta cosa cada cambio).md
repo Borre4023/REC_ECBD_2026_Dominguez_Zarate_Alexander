@@ -329,3 +329,17 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
 - **Actualizados:** `modelos/clasificacion/metricas.json`, notebook 04 (re-ejecutado, 0 errores;
   interpretación de §2 y §3 reescrita), `docs/modelos/evaluacion_modelos.md` §3.1, informe
   final Tabla 5 (+ HTML regenerado con pandoc) y `powerbi/datos/metricas_modelos.csv`.
+
+### 2026-11-20 — Dashboard en Power BI terminado e integrado al informe
+
+- **`powerbi/SouthGermanCredit.pbix`:** 4 páginas (panorama, ¿quién incumple?, ¿cuánta
+  exposición?, modelos y segmentos) construidas en Power BI Desktop a partir de los CSV de
+  `powerbi/datos/`. Las cifras de control coinciden con el dashboard HTML (1 000 créditos,
+  30.0 % bad, 52.1 % vs 9.1 %, 28.8 → 23.9 → 38.1 → 54.3 %, AUC 0.835, 46/14/41/99, 254 vs 746).
+- **Capturas:** `docs/resultados/capturas_powerbi/01–04`.
+- **Guía:** `Orden Rango Monto` ahora se calcula con los cortes numéricos (comparar el texto de
+  la etiqueta rompía el orden si un guion o espacio no coincidía) y `Créditos Bad` suma `+ 0`
+  para que la matriz muestre 0 % en las combinaciones sin ningún bad.
+- **Informe final:** nueva §7.5 "Dashboard alternativo en Power BI" (capturas 5–8) y
+  entradas en los Anexos A, B y C; HTML regenerado con pandoc.
+- **README:** Power BI marcado como completado; capturas y `.pbix` en la tabla de documentación.

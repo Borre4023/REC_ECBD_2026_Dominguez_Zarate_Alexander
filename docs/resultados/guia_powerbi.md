@@ -53,7 +53,7 @@ usar *Texto/CSV* → delimitador `;` → codificación 65001: UTF-8 → "Detecta
 Total Créditos = COUNTROWS('dm_riesgo_crediticio')
 
 Créditos Bad =
-CALCULATE([Total Créditos], 'dm_riesgo_crediticio'[riesgo_credito] = 0)
+CALCULATE([Total Créditos], 'dm_riesgo_crediticio'[riesgo_credito] = 0) + 0
 
 % Bad = DIVIDE([Créditos Bad], [Total Créditos])
 
@@ -77,10 +77,20 @@ SWITCH(TRUE(),
     "≥ 8 000")
 
 Orden Rango Monto =
-SWITCH([Rango Monto], "< 1 500", 1, "1 500–3 999", 2, "4 000–7 999", 3, 4)
+SWITCH(TRUE(),
+    'dm_riesgo_crediticio'[monto_dm] < 1500, 1,
+    'dm_riesgo_crediticio'[monto_dm] < 4000, 2,
+    'dm_riesgo_crediticio'[monto_dm] < 8000, 3,
+    4)
 ```
 
 Ordenar `Rango Monto` por `Orden Rango Monto` (Herramientas de columna → Ordenar por columna).
+`Orden Rango Monto` usa los mismos cortes numéricos que `Rango Monto` en lugar de comparar el
+texto de la etiqueta: así un guion o espacio distinto al teclear no rompe el orden.
+
+El `+ 0` de `Créditos Bad` hace que una combinación sin ningún bad muestre **0 %** en lugar de
+una celda vacía (en la matriz de la página 2: `0_to_200` × `500_to_1000` y
+`no_checking` × `500_to_1000`).
 
 En `segmentos`:
 
