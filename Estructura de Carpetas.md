@@ -53,12 +53,14 @@
             ├── exploracion_tecnica.py
             └── figuras_fuente.py
     ├── README.md
-    ├── run_clas_manual.py
-    ├── run_clas_manual2.py
-    ├── run_nb_reg.py
-    ├── run_reg_manual.py
-    ├── run_reg_manual2.py
-    ├── run_reg_simple.py
-    ├── test_modelos_manual.py
-    └── update_docs.py
+    └── 📁legacy
+        ├── README.md
+        ├── run_clas_manual.py
+        ├── run_clas_manual2.py
+        ├── run_nb_reg.py
+        ├── run_reg_manual.py
+        ├── run_reg_manual2.py
+        ├── run_reg_simple.py
+        ├── test_modelos_manual.py
+        └── update_docs.py
 ```

@@ -268,10 +268,7 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
   UCI…) y 4 anexos; HTML autocontenido con pandoc (2.17 MB, 13 imágenes base64).
 - **`data/README.md`:** separación raw/processed (inmutable vs. regenerable) y comandos de
   regeneración.
-- **Guía de ejecución y defensa** (`docs/resultados/guia_ejecucion_defensa.md`): 7 comandos con
-  salidas esperadas, guion por fase, 8 preguntas probables del sinodal y checklist pre-entrega.
-  **Elaborada pero retenida del repositorio:** se publicará después del 20 de noviembre
-  (fecha de entrega final), para no anticipar el material de defensa.
+- **Material de defensa:** elaborado y mantenido fuera del repositorio (no se publica).
 - **Pulido documental:** subsección 1.1 "Selección de variables" en `docs/modelos/clustering_pca.md`;
   nota histórica en `docs/modelos/resumen_regresion_clasificacion.md` (remitir a
   `evaluacion_modelos.md`); README con enlaces al informe, capturas, guía y diagrama.
@@ -300,4 +297,19 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
   App Control impidió cargar scipy. Se instaló 3.11.9 vía `py install 3.11` como respaldo y
   se verificó que el pipeline corre tanto con `py` (3.15) como con `py -3.11`, con cifras
   idénticas.
-- **Guía de defensa:** sigue retenida fuera del repositorio (se publicará después del 20).
+- **Material de defensa:** se mantiene fuera del repositorio.
+
+### 2026-11-20 — Dashboard alternativo en Power BI y limpieza del repositorio
+
+- **`src/dashboard/exportar_powerbi.py`:** exporta 7 CSV a `powerbi/datos/` (vista plana del
+  Data Mart, segmentos, PCA, selección de k, métricas y matriz de confusión) en UTF-8 con BOM
+  y separador `;`.
+- **`docs/resultados/guia_powerbi.md`:** guía de construcción del `.pbix` (importación, DAX,
+  4 páginas, estilo y checklist). La columna `Rango Monto` usa los mismos cortes que Q5
+  (1 500 / 4 000 / 8 000 DM) para reproducir 28.8 → 23.9 → 38.1 → 54.3 % bad.
+- **Segmentos por monto medio:** `generar_dashboard.py` y `exportar_powerbi.py` ya no asumen
+  que el clúster 0 es el de exposición alta; lo deciden por el monto medio de cada clúster.
+- **Limpieza:** los scripts de la fase manual pre-sklearn (`run_*.py`,
+  `test_modelos_manual.py`, `update_docs.py`) se movieron a `legacy/`.
+- **README:** cronograma aclarado (modelos rehechos con sklearn), Power BI y `legacy/` en la
+  estructura; se retira la referencia al material de defensa.

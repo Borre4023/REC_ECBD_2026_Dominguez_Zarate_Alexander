@@ -1,0 +1,14 @@
+﻿problema;modelo;metrica;valor;conjunto
+clasificacion;logistica_bal_C01;roc_auc;0.8354;test
+clasificacion;logistica_bal_C01;roc_auc;0.772;cv_5fold
+clasificacion;logistica_bal_C01;accuracy;0.725;test
+clasificacion;logistica_bal_C01;precision_bad;0.5287;test
+clasificacion;logistica_bal_C01;recall_bad;0.7667;test
+clasificacion;logistica_bal_C01;f1_bad;0.6259;test
+clasificacion;logistica_bal_C01;f1_bad;0.779;cv_5fold
+regresion;ridge_cv;r2;0.5961;test
+regresion;ridge_cv;r2;0.55;cv_5fold
+regresion;ridge_cv;rmse_dm;1798.1417;test
+regresion;ridge_cv;rmse_dm;1887.104;cv_5fold
+regresion;ridge_cv;mae_dm;1138.5538;test
+regresion;ridge_cv;mae_dm;1317.565;cv_5fold

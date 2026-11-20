@@ -69,6 +69,7 @@ El proyecto se desarrolla como un ejercicio de **KDD** que incluye análisis exp
 - [x] **Unidad IV — clustering y PCA** (`src/models/clustering_pca.py`, `notebooks/05_clustering_pca.ipynb`): PCA (PC1 = eje exposición, 23 CP para 80% de varianza) y K-means k=2 con validación post-hoc (segmento de exposición alta: 43.7% bad); evaluación en `docs/modelos/clustering_pca.md`
 - [x] **Dashboard HTML autocontenido** (`dashboard/index.html`): KPIs + consultas Q1–Q5 del Data Mart + resultados de modelos y segmentos; figuras en base64, generado con `py src/dashboard/generar_dashboard.py`
 - [x] **Cierre (Fase 6):** diagrama del esquema estrella (`docs/analisis/figuras/diagrama_dw.png`), 4 capturas del dashboard (`docs/resultados/capturas/`) e informe final borrador APA 7 (`docs/resultados/informe_final_borrador.md` + `.html`)
+- [ ] **Dashboard alternativo en Power BI** (`powerbi/`): CSV exportados del Data Mart y de los modelos con `py src/dashboard/exportar_powerbi.py` y guía de construcción (`docs/resultados/guia_powerbi.md`); falta construir `powerbi/SouthGermanCredit.pbix`
 
 ## Metodología
 
@@ -107,7 +108,7 @@ south-german-credit/
 │   ├── etl/                # etl_south_german_credit.py, build_dw_sqlite.py
 │   ├── preprocessing/      # exploracion_tecnica.py, figuras_fuente.py
 │   ├── models/             # entrenar_regresion.py, entrenar_clasificacion.py, clustering_pca.py
-│   └── dashboard/          # generar_dashboard.py + plantilla.html
+│   └── dashboard/          # generar_dashboard.py + plantilla.html + exportar_powerbi.py
 ├── sql/
 │   ├── schema_dw.sql       # diseño PostgreSQL (teórico)
 │   ├── schema_dw_sqlite.sql
@@ -118,6 +119,8 @@ south-german-credit/
 │   └── clustering/
 ├── dashboard/
 │   └── index.html          # dashboard autocontenido (abrir en navegador)
+├── powerbi/                # versión alternativa en Power BI (datos/*.csv + .pbix)
+├── legacy/                 # scripts de la fase manual pre-sklearn (solo referencia histórica)
 └── docs/
     ├── planeacion/
     ├── diccionario_datos/
@@ -133,7 +136,7 @@ south-german-credit/
 | 2 oct | Documento de planeación | Informe inicial | ✅ Completado |
 | 9 oct | Diccionario de datos, exploración y limpieza inicial | Diccionario + notebook EDA + propuesta DW/Data Mart | ✅ Completado |
 | 16 oct | ETL, datos procesados, DW/Data Mart y repositorio | Pipeline ETL + dataset procesado + estructura de BD | ✅ Completado |
-| 23 oct | Modelos de regresión y clasificación | Primeros modelos funcionando | ✅ Completado (implementación manual, sin sklearn por restricciones del entorno) |
+| 23 oct | Modelos de regresión y clasificación | Primeros modelos funcionando | ✅ Completado (primera versión manual por restricciones del entorno; rehecho con sklearn el 16 nov) |
 | 6 nov | Clustering y reducción de dimensionalidad | Modelos no supervisados funcionando | ✅ Completado |
 | 13 nov | Análisis no supervisado | Modelos + evaluación + interpretación + informe | ✅ Completado |
 | 17 nov | Dashboard y storytelling | Dashboard revisado + narrativa preliminar | ✅ Completado (dashboard autocontenido + consultas del Data Mart) |
@@ -193,7 +196,7 @@ para reproducibilidad completa.
 | Clustering y PCA (Unidad IV) | `docs/modelos/clustering_pca.md` |
 | **Informe final (borrador, APA 7)** | `docs/resultados/informe_final_borrador.md` (+ `.html` autocontenida) |
 | **Capturas del dashboard** | `docs/resultados/capturas/` |
-| **Guía de ejecución y defensa** | *se publicará después del 20 de noviembre (fecha de entrega final)* |
+| Guía del dashboard en Power BI | `docs/resultados/guia_powerbi.md` (+ `powerbi/README.md`) |
 | Diagrama del Data Mart | `docs/analisis/figuras/diagrama_dw.png` (generable con `py src/etl/diagrama_dw.py`) |
 | Separación de datos y regeneración | `data/README.md` |
 | Bitácora de cambios | `docs/Informe de cambios (actualiza esta cosa cada cambio).md` |

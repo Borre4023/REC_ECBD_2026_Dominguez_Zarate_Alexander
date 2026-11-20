@@ -175,8 +175,11 @@ def main():
               encoding='utf-8') as f:
         m_clu = json.load(f)
     clus = {c['cluster']: c for c in m_clu['perfil_clusters']}
+    # el segmento de exposición alta es el de mayor monto medio (no depende de la etiqueta)
+    alta = max(clus, key=lambda c: clus[c]['monto_medio'])
+    baja = min(clus, key=lambda c: clus[c]['monto_medio'])
     tabla_clusters = df_a_html(pd.DataFrame([
-        {'segmento': 'exposición alta' if c == 0 else 'exposición baja',
+        {'segmento': 'exposición alta' if c == alta else 'exposición baja',
          'clientes': int(v['tamaño']),
          'monto medio (DM)': int(v['monto_medio']),
          'plazo (meses)': v['plazo_medio'],
@@ -184,10 +187,11 @@ def main():
         for c, v in clus.items()]),
         {'monto medio (DM)': lambda v: f"{int(v):,}".replace(',', ' '),
          '% bad real': lambda v: f'<span class="bad">{v}%</span>'})
-    clu0 = {'monto': f"{int(clus[0]['monto_medio']):,}".replace(',', ' '),
-            'pct_bad': clus[0]['pct_bad']}
-    clu1 = {'monto': f"{int(clus[1]['monto_medio']):,}".replace(',', ' '),
-            'pct_bad': clus[1]['pct_bad']}
+    # clu0 = exposición alta, clu1 = exposición baja (nombres que usa la plantilla)
+    clu0 = {'monto': f"{int(clus[alta]['monto_medio']):,}".replace(',', ' '),
+            'pct_bad': clus[alta]['pct_bad']}
+    clu1 = {'monto': f"{int(clus[baja]['monto_medio']):,}".replace(',', ' '),
+            'pct_bad': clus[baja]['pct_bad']}
 
     # ---- Figuras base64 ----
     fig_roc = figura_base64('roc_curvas.png')

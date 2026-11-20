@@ -1,0 +1,5 @@
+﻿real;prediccion;tipo;creditos
+real bad;pred bad;TP;46
+real bad;pred good;FN;14
+real good;pred bad;FP;41
+real good;pred good;TN;99
