@@ -76,18 +76,19 @@ montos individuales.
 
 | Modelo | ROC-AUC | F1 (bad) |
 |---|---:|---:|
-| **Logística balanceada C=0.1** | **0.772 ± 0.044** | 0.779 |
-| RandomForest 300 árboles balanceado | 0.771 ± 0.033 | 0.805 |
-| Logística balanceada C=1.0 | 0.763 ± 0.036 | 0.767 |
-| Baseline (mayoritaria) | 0.500 | 0.824* |
+| **Logística balanceada C=0.1** | **0.772 ± 0.044** | **0.597** |
+| RandomForest 300 árboles balanceado | 0.771 ± 0.033 | 0.552 |
+| Logística balanceada C=1.0 | 0.763 ± 0.036 | 0.565 |
+| Baseline (mayoritaria) | 0.500 | 0.000* |
 
-\* El F1 del baseline es una trampa estadística: prediciendo todo "good" el F1 de bad
-es 0; el 0.824 corresponde a la clase mayoritaria. Con clase positiva = bad, AUC 0.50
-= azar.
+F1 (bad) con umbral 0.5 y clase positiva = bad (`make_scorer(f1_score, pos_label=0)`).
+\* El baseline predice todo "good": nunca detecta un bad (F1 = 0) y su AUC 0.50 = azar.
+Su accuracy (0.70) parecería aceptable, por eso no se usa como criterio.
 
 **Lectura:** los tres modelos reales empatan (AUC ≈ 0.77): con 800 filas y variables
 mayormente ordinales, la parsimonia de la logística regularizada basta y el ensemble
-no aporta. Empata también con el hallazgo de la Unidad II (AUC manual 0.703) y lo
+no aporta. El F1 de bad confirma el orden: la logística C=0.1 lidera (0.597) y el
+RandomForest queda último (0.552). Empata también con el hallazgo de la Unidad II (AUC manual 0.703) y lo
 supera con holgura gracias al one-hot + balanceo + CV estratificada.
 
 ### 3.2 Umbral de decisión (ajustado solo en train)

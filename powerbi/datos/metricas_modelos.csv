@@ -5,7 +5,7 @@ clasificacion;logistica_bal_C01;accuracy;0.725;test
 clasificacion;logistica_bal_C01;precision_bad;0.5287;test
 clasificacion;logistica_bal_C01;recall_bad;0.7667;test
 clasificacion;logistica_bal_C01;f1_bad;0.6259;test
-clasificacion;logistica_bal_C01;f1_bad;0.779;cv_5fold
+clasificacion;logistica_bal_C01;f1_bad;0.597;cv_5fold
 regresion;ridge_cv;r2;0.5961;test
 regresion;ridge_cv;r2;0.55;cv_5fold
 regresion;ridge_cv;rmse_dm;1798.1417;test

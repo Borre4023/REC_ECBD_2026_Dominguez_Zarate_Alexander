@@ -240,12 +240,12 @@ Los coeficientes estandarizados son interpretables: `laufzeit` (+1 488 DM por σ
 
 | Modelo | ROC-AUC | F1 (bad) |
 |---|---:|---:|
-| **Logística balanceada C = 0.1** | **0.772 ± 0.044** | 0.779 |
-| RandomForest 300 (balanceado) | 0.771 ± 0.033 | 0.805 |
-| Logística balanceada C = 1.0 | 0.763 ± 0.036 | 0.767 |
-| Baseline (mayoritaria) | 0.500 | —* |
+| **Logística balanceada C = 0.1** | **0.772 ± 0.044** | **0.597** |
+| RandomForest 300 (balanceado) | 0.771 ± 0.033 | 0.552 |
+| Logística balanceada C = 1.0 | 0.763 ± 0.036 | 0.565 |
+| Baseline (mayoritaria) | 0.500 | 0.000* |
 
-\* El F1 del baseline con clase positiva = bad es 0; predice todo "good".
+F1 (bad) con umbral 0.5 y clase positiva = bad. \* El baseline predice todo "good", por lo que nunca detecta un bad.
 
 **Tabla 6.** Evaluación final en prueba (umbral 0.49, ajustado en train)
 

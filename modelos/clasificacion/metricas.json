@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-20T07:50:14",
+  "fecha": "2026-11-20T10:38:36",
   "dataset": "data\\processed\\south_german_credit_processed.csv",
   "target": "kredit",
   "clase_positiva": "bad (kredit=0)",
@@ -44,25 +44,25 @@
       "modelo": "logistica_bal_C01",
       "roc_auc_cv": 0.772,
       "auc_std": 0.044,
-      "f1_bad_cv": 0.779
+      "f1_bad_cv": 0.597
     },
     {
       "modelo": "random_forest_bal",
       "roc_auc_cv": 0.771,
       "auc_std": 0.033,
-      "f1_bad_cv": 0.805
+      "f1_bad_cv": 0.552
     },
     {
       "modelo": "logistica_bal_C1",
       "roc_auc_cv": 0.763,
       "auc_std": 0.036,
-      "f1_bad_cv": 0.767
+      "f1_bad_cv": 0.565
     },
     {
       "modelo": "baseline_mayoritaria",
       "roc_auc_cv": 0.5,
       "auc_std": 0.0,
-      "f1_bad_cv": 0.824
+      "f1_bad_cv": 0.0
     }
   ],
   "mejor_modelo": "logistica_bal_C01",

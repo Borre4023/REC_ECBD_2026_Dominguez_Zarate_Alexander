@@ -313,3 +313,19 @@ Se elaboró `docs/diccionario_datos/diccionario_datos_v2.md` con mapeo completo 
   `test_modelos_manual.py`, `update_docs.py`) se movieron a `legacy/`.
 - **README:** cronograma aclarado (modelos rehechos con sklearn), Power BI y `legacy/` en la
   estructura; se retira la referencia al material de defensa.
+
+### 2026-11-20 — Corrección del F1 de bad en la comparación por CV
+
+- **Error:** en `comparar_cv` de `src/models/entrenar_clasificacion.py` el scorer `'f1'` de
+  sklearn medía la etiqueta 1 (**good**), no bad (`kredit = 0`). Por eso el baseline
+  mayoritario aparecía con "F1 bad" 0.824.
+- **Corrección:** `make_scorer(f1_score, pos_label=0, zero_division=0)`. F1 de bad en CV
+  (umbral 0.5): logística C=0.1 **0.597**, logística C=1 0.565, RandomForest 0.552,
+  baseline 0.000 (antes 0.779 / 0.767 / 0.805 / 0.824).
+- **Sin impacto en la selección ni en test:** el modelo se elige por ROC-AUC (simétrico) y las
+  métricas de test ya usaban bad como positiva. AUC 0.835, accuracy 0.725, recall 0.767,
+  F1 0.626, umbral 0.49 y figuras sin cambios. Con el F1 corregido la logística C=0.1
+  también lidera por F1.
+- **Actualizados:** `modelos/clasificacion/metricas.json`, notebook 04 (re-ejecutado, 0 errores;
+  interpretación de §2 y §3 reescrita), `docs/modelos/evaluacion_modelos.md` §3.1, informe
+  final Tabla 5 (+ HTML regenerado con pandoc) y `powerbi/datos/metricas_modelos.csv`.

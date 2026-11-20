@@ -35,8 +35,8 @@ from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
-                             precision_score, recall_score, roc_auc_score,
-                             roc_curve)
+                             make_scorer, precision_score, recall_score,
+                             roc_auc_score, roc_curve)
 from sklearn.model_selection import (StratifiedKFold, cross_val_predict,
                                      cross_validate, train_test_split)
 from sklearn.pipeline import Pipeline
@@ -89,8 +89,12 @@ def comparar_modelos(X_train, y_train, semilla=42):
     for nombre, modelo in candidatos(semilla).items():
         pipe = construir_pipeline(modelo)
         res = cross_validate(pipe, X_train, y_train, cv=cv,
+                             # 'f1' a secas mide la etiqueta 1 (good); bad es 0.
+                             # roc_auc es simétrico, así que no necesita pos_label.
                              scoring={'auc': 'roc_auc',
-                                      'f1_bad': 'f1'})
+                                      'f1_bad': make_scorer(f1_score,
+                                                            pos_label=POSA_LABEL,
+                                                            zero_division=0)})
         filas.append({
             'modelo': nombre,
             'roc_auc_cv': res['test_auc'].mean(),
